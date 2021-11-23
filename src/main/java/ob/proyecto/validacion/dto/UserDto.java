@@ -1,8 +1,12 @@
 package ob.proyecto.validacion.dto;
 
 import ob.proyecto.validacion.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserDto {
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private String username;
     private String email;
@@ -36,7 +40,7 @@ public class UserDto {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
-        user.setPassword(password);
+        user.setPassword(encoder.encode(password));
         user.setRole("USER");
 
         return user;

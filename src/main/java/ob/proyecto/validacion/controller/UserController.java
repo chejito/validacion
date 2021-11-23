@@ -6,6 +6,7 @@ import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +20,12 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    public UserController(UserServiceImpl userService){
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    public UserController(UserServiceImpl userService, BCryptPasswordEncoder encoder){
         this.userService = userService;
+        this.encoder = encoder;
     }
 
     @GetMapping("/")
@@ -28,8 +33,8 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PostMapping("/registrate")
-    public ResponseEntity<User> registrate(@RequestBody UserDto userDto){
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody UserDto userDto){
 
         return userService.register(userDto);
     }
@@ -40,7 +45,8 @@ public class UserController {
 
         for (User user : list){
             if (user.getUsername().equalsIgnoreCase(loginUser.getUsername())){
-                if (user.getPassword().equalsIgnoreCase(loginUser.getPassword())){
+                // Desencripta la contraseña del usuario para comparacion
+                if (encoder.matches(loginUser.getPassword(), user.getPassword())){
                     return ResponseEntity.ok("Usuario logado");
                 }
             }
