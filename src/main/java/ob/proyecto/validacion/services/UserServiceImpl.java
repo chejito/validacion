@@ -1,22 +1,30 @@
 package ob.proyecto.validacion.services;
 
 import ob.proyecto.validacion.dto.UserDto;
+import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
+import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    @Autowired
+    private final RoleRepository roleRepository;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository =  userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -75,6 +83,10 @@ public class UserServiceImpl implements UserService{
             }
         }
 
+        Role role = roleRepository.getByName("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        userDto.setRoles(roles);
         User user = userDto.getUserFromDto();
         userRepository.save(user);
 
