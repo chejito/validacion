@@ -5,6 +5,7 @@ import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
+import ob.proyecto.validacion.security.payload.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,69 +28,75 @@ public class UserServiceImpl implements UserService{
         this.roleRepository = roleRepository;
     }
 
+//    @Override
+//    public ResponseEntity<List<User>> findAll() {
+//        List<User> result = userRepository.findAll();
+//
+//        if (result.isEmpty())
+//            return ResponseEntity.notFound().build();
+//
+//        return ResponseEntity.ok(result);
+//    }
+//
+//    @Override
+//    public ResponseEntity<User> findByUsername(String username) {
+//        List<User> result = userRepository.findAll();
+//
+//        if (result.isEmpty())
+//            return ResponseEntity.notFound().build();
+//
+//        for (User user : result){
+//            if (user.getUsername().equalsIgnoreCase(username)){
+//                return ResponseEntity.ok(user);
+//            }
+//        }
+//
+//        return ResponseEntity.notFound().build();
+//    }
+//
+//    @Override
+//    public boolean fullnameIsUsed(String fullname) {
+//        List<User> result = userRepository.findAll();
+//
+//        if (result.isEmpty())
+//            return false;
+//
+//        for (User user : result){
+//            if (user.getFullname().equalsIgnoreCase(fullname)){
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
+
     @Override
-    public ResponseEntity<List<User>> findAll() {
-        List<User> result = userRepository.findAll();
-
-        if (result.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(result);
-    }
-
-    @Override
-    public ResponseEntity<User> findByUsername(String username) {
-        List<User> result = userRepository.findAll();
-
-        if (result.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        for (User user : result){
-            if (user.getUsername().equalsIgnoreCase(username)){
-                return ResponseEntity.ok(user);
-            }
-        }
-
-        return ResponseEntity.notFound().build();
-    }
-
-    @Override
-    public boolean emailIsUsed(String email) {
-        List<User> result = userRepository.findAll();
-
-        if (result.isEmpty())
-            return false;
-
-        for (User user : result){
-            if (user.getEmail().equalsIgnoreCase(email)){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public ResponseEntity<User> register(UserDto userDto) {
+    public ResponseEntity<MessageResponse> register(UserDto userDto) {
         List<User> list = userRepository.findAll();
 
         for (User user : list){
+            // Comprobacion 1: username (email)
             if (user.getUsername().equalsIgnoreCase(userDto.getUsername())){
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error: ¡El email " + userDto.getUsername() + " ya esta en uso!"));
             }
 
-            if (user.getEmail().equalsIgnoreCase(userDto.getEmail())){
-                return ResponseEntity.badRequest().build();
+            // Comprobacion 2: fullname
+            if (user.getFullname().equalsIgnoreCase(userDto.getFullname())){
+                return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + userDto.getFullname() + " ya está en registrado!"));
             }
+
         }
 
-        Role role = roleRepository.getByName("USER");
         Set<Role> roles = new HashSet<>();
-        roles.add(role);
+        roles.add(roleRepository.getByName("USER"));
         userDto.setRoles(roles);
         User user = userDto.getUserFromDto();
         userRepository.save(user);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(new MessageResponse("¡Usuario registrado satisfactoriamente!"));
     }
 }

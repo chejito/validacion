@@ -10,10 +10,27 @@ public class UserDto {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    private String fullname;
     private String username;
-    private String email;
     private String password;
+    private String phone;
     private Set<Role> roles;
+    private String dni1;
+    private String dni2;
+
+    public UserDto(String fullname, String username, String password) {
+        this.fullname = fullname;
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
     public String getUsername() {
         return username;
@@ -21,14 +38,6 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -47,12 +56,39 @@ public class UserDto {
         this.roles = roles;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDni1() {
+        return dni1;
+    }
+
+    public void setDni1(String dni1) {
+        this.dni1 = dni1;
+    }
+
+    public String getDni2() {
+        return dni2;
+    }
+
+    public void setDni2(String dni2) {
+        this.dni2 = dni2;
+    }
+
     public User getUserFromDto(){
         User user = new User();
         user.setUsername(username);
-        user.setEmail(email);
+        user.setFullname(fullname);
         user.setPassword(encoder.encode(password));
+        user.setPhone(phone);
         user.setRoles(roles);
+        user.setDni1(dni1);
+        user.setDni2(dni2);
 
         return user;
     }

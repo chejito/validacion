@@ -1,12 +1,16 @@
 package ob.proyecto.validacion.controller;
 
+import ob.proyecto.validacion.dto.UserDto;
+import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
+import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
 import ob.proyecto.validacion.security.jwt.JwtTokenUtil;
 import ob.proyecto.validacion.security.payload.JwtResponse;
 import ob.proyecto.validacion.security.payload.LoginRequest;
 import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.security.payload.RegisterRequest;
+import ob.proyecto.validacion.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Controlador para llevar a cabo la autenticación utilizando JWT
@@ -29,18 +36,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authManager;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder encoder;
     private final JwtTokenUtil jwtTokenUtil;
+    private final RoleRepository roleRepository;
 
     public AuthController(AuthenticationManager authManager,
-                          UserRepository userRepository,
+                          UserService userService,
                           PasswordEncoder encoder,
-                          JwtTokenUtil jwtTokenUtil){
+                          JwtTokenUtil jwtTokenUtil,
+                          RoleRepository roleRepository){
         this.authManager = authManager;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.encoder = encoder;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.roleRepository = roleRepository;
     }
 
     @PostMapping("/login")
@@ -60,27 +70,21 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<MessageResponse> register(@RequestBody RegisterRequest signUpRequest) {
 
-        // Comprobación 1: username
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        //Comprueba que no hay campos vacios
+        if (signUpRequest.getName() == null ||
+            signUpRequest.getSurename() == null ||
+            signUpRequest.getUsername() == null ||
+            signUpRequest.getPassword() == null)
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Nombre de usuario ya utilizado!"));
-        }
+                    .body(new MessageResponse("Error: es necesario enviar los campos name, surename, username y password"));
 
-        // Comprobación 2: email
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: ¡Dirección de Email ya está en uso!"));
-        }
+        UserDto userDto = new UserDto(signUpRequest.getName() + " " + signUpRequest.getSurename(),
+                signUpRequest.getUsername(),
+                signUpRequest.getPassword());
 
-        // Crea nueva cuenta de usuario
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        ResponseEntity<MessageResponse> result = userService.register(userDto);
 
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("¡Usuario registrado satisfactoriamente!"));
+        return result;
     }
 }
