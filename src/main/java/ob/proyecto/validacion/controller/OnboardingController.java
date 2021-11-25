@@ -19,7 +19,7 @@ public class OnboardingController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/dni")
     public ResponseEntity<MessageResponse> addPhotosAndPhone(OnboardingDto onboardingDto){
 
