@@ -1,6 +1,8 @@
 package ob.proyecto.validacion.services;
 
+import ob.proyecto.validacion.dto.OnboardingDto;
 import ob.proyecto.validacion.dto.UserDto;
+import ob.proyecto.validacion.dto.ValidationDto;
 import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.repositories.RoleRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -26,23 +29,6 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository =  userRepository;
         this.roleRepository = roleRepository;
-    }
-
-
-    @Override
-    public ResponseEntity<User> findByUsername(String username) {
-        List<User> result = userRepository.findAll();
-
-        if (result.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        for (User user : result){
-            if (user.getUsername().equalsIgnoreCase(username)){
-                return ResponseEntity.ok(user);
-            }
-        }
-
-        return ResponseEntity.notFound().build();
     }
 
     @Override
@@ -73,5 +59,41 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("¡Usuario registrado satisfactoriamente!"));
+    }
+
+    @Override
+    public ResponseEntity<MessageResponse> addPhotosAndPhone(OnboardingDto onboardingDto) {
+
+        Optional<User> user = userRepository.findByUsername(onboardingDto.getUsername());
+
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + onboardingDto.getUsername() + " no existe!"));
+
+        user.get().setPhone(onboardingDto.getPhone());
+        user.get().setDni1(onboardingDto.getDni1());
+        user.get().setDni2(onboardingDto.getDni2());
+
+        userRepository.save(user.get());
+
+        return ResponseEntity
+                .ok( new MessageResponse("DNI y phone actualizados"));
+    }
+
+    @Override
+    public ResponseEntity<MessageResponse> validate(ValidationDto validationDto) {
+        Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
+
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
+
+        user.get().setValidated(true);
+        userRepository.save(user.get());
+
+        return ResponseEntity
+                .ok( new MessageResponse("¡Usuario " + user.get().getUsername() + " validado!"));
     }
 }

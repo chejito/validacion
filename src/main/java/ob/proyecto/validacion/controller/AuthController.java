@@ -1,5 +1,6 @@
 package ob.proyecto.validacion.controller;
 
+import ob.proyecto.validacion.dto.OnboardingDto;
 import ob.proyecto.validacion.dto.UserDto;
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.security.jwt.JwtTokenUtil;
@@ -9,6 +10,7 @@ import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.security.payload.RegisterRequest;
 import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
