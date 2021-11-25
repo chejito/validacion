@@ -1,17 +1,10 @@
-package ob.proyecto.validacion.dto;
+package ob.proyecto.validacion.security.payload;
 
-public class LoginUser {
-
+public class LoginRequest {
     private String username;
     private String password;
 
-    public LoginUser() {
-    }
-
-    public LoginUser(String username, String email) {
-        this.username = username;
-        this.password = email;
-    }
+    public LoginRequest() { }
 
     public String getUsername() {
         return username;
