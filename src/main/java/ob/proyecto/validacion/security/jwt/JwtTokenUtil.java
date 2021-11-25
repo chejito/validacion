@@ -35,14 +35,16 @@ public class JwtTokenUtil {
 
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 
-//        String authorities = authentication.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.joining(","));
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        System.out.println(authentication.getAuthorities());
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
-                // TODO: añadir autoridade al token
-                //.claim(AUTHORITIES_KEY, authorities)
+                // TODO: añadir autoridad al token
+                .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -70,5 +72,22 @@ public class JwtTokenUtil {
         }
 
         return false;
+    }
+
+    //Test
+    UsernamePasswordAuthenticationToken getAuthenticationToken(final String token, final Authentication existingAuth, final UserDetails userDetails) {
+
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(jwtSecret);
+
+        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+
+        final Claims claims = claimsJws.getBody();
+
+        final Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 }
