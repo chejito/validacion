@@ -28,47 +28,22 @@ public class UserServiceImpl implements UserService{
         this.roleRepository = roleRepository;
     }
 
-//    @Override
-//    public ResponseEntity<List<User>> findAll() {
-//        List<User> result = userRepository.findAll();
-//
-//        if (result.isEmpty())
-//            return ResponseEntity.notFound().build();
-//
-//        return ResponseEntity.ok(result);
-//    }
-//
-//    @Override
-//    public ResponseEntity<User> findByUsername(String username) {
-//        List<User> result = userRepository.findAll();
-//
-//        if (result.isEmpty())
-//            return ResponseEntity.notFound().build();
-//
-//        for (User user : result){
-//            if (user.getUsername().equalsIgnoreCase(username)){
-//                return ResponseEntity.ok(user);
-//            }
-//        }
-//
-//        return ResponseEntity.notFound().build();
-//    }
-//
-//    @Override
-//    public boolean fullnameIsUsed(String fullname) {
-//        List<User> result = userRepository.findAll();
-//
-//        if (result.isEmpty())
-//            return false;
-//
-//        for (User user : result){
-//            if (user.getFullname().equalsIgnoreCase(fullname)){
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+
+    @Override
+    public ResponseEntity<User> findByUsername(String username) {
+        List<User> result = userRepository.findAll();
+
+        if (result.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        for (User user : result){
+            if (user.getUsername().equalsIgnoreCase(username)){
+                return ResponseEntity.ok(user);
+            }
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 
     @Override
     public ResponseEntity<MessageResponse> register(UserDto userDto) {

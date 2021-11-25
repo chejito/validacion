@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface UserService {
 
-//    ResponseEntity<List<User>> findAll();
-//    ResponseEntity<User> findByUsername(String username);
-//    boolean fullnameIsUsed(String fullname);
+    ResponseEntity<User> findByUsername(String username);
     ResponseEntity<MessageResponse> register(UserDto userDto);
 }

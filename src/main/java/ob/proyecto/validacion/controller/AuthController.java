@@ -1,16 +1,13 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.UserDto;
-import ob.proyecto.validacion.entities.Role;
-import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.repositories.RoleRepository;
-import ob.proyecto.validacion.repositories.UserRepository;
 import ob.proyecto.validacion.security.jwt.JwtTokenUtil;
 import ob.proyecto.validacion.security.payload.JwtResponse;
 import ob.proyecto.validacion.security.payload.LoginRequest;
 import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.security.payload.RegisterRequest;
-import ob.proyecto.validacion.services.UserService;
+import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Controlador para llevar a cabo la autenticación utilizando JWT
@@ -36,13 +30,13 @@ import java.util.Set;
 public class AuthController {
 
     private final AuthenticationManager authManager;
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final PasswordEncoder encoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final RoleRepository roleRepository;
 
     public AuthController(AuthenticationManager authManager,
-                          UserService userService,
+                          UserServiceImpl userService,
                           PasswordEncoder encoder,
                           JwtTokenUtil jwtTokenUtil,
                           RoleRepository roleRepository){
