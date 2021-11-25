@@ -39,8 +39,6 @@ public class JwtTokenUtil {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        System.out.println(authentication.getAuthorities());
-
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 // TODO: añadir autoridad al token
