@@ -13,7 +13,7 @@ import java.util.Map;
  * servicio de alojamiento en la nube Cloudinary
  */
 @Service
-public class SubirImagenCloudinaryServiceImpl implements SubirImagenService {
+public class UploadImageCloudinaryServiceImpl implements UploadImageService {
 
     private final String cloudName = System.getenv("CLOUDINARY_CLOUD_NAME");
     private final String apiKey = System.getenv("CLOUDINARY_API_KEY");

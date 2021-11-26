@@ -2,8 +2,8 @@ package ob.proyecto.validacion;
 
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
-import ob.proyecto.validacion.services.SubirImagenService;
-import ob.proyecto.validacion.services.SubirImagenCloudinaryServiceImpl;
+import ob.proyecto.validacion.services.UploadImageService;
+import ob.proyecto.validacion.services.UploadImageCloudinaryServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +20,7 @@ public class ValidacionApplication {
 		RoleRepository roleRepository = context.getBean(RoleRepository.class);
 		UserRepository userRepository = context.getBean(UserRepository.class);
 		BCryptPasswordEncoder encoder = context.getBean(BCryptPasswordEncoder.class);
-		SubirImagenService upload = context.getBean(SubirImagenCloudinaryServiceImpl.class);
+		UploadImageService upload = context.getBean(UploadImageCloudinaryServiceImpl.class);
 
 		/*Role userRole = new Role (null, "USER");
 		Role adminRole = new Role (null, "ADMIN");
