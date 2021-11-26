@@ -2,6 +2,7 @@ package ob.proyecto.validacion.entities;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,9 @@ public class User {
     private Long id;
 
     @Column
+    private String fullname;
+
+    @Column
     private String username;
 
     @Column
@@ -20,6 +24,18 @@ public class User {
 
     @Column
     private String password;
+
+    @Column
+    private String phone;
+
+    @Column
+    private boolean validated = false;
+
+    @Column
+    private String dni1;
+
+    @Column
+    private String dni2;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES",
@@ -33,10 +49,12 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String fullname, String email, String username, String password, Set<Role> roles) {
+        this.fullname = fullname;
         this.email = email;
+        this.username = username;
         this.password = password;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -47,12 +65,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {
@@ -63,12 +81,52 @@ public class User {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDni1() {
+        return dni1;
+    }
+
+    public void setDni1(String dni1) {
+        this.dni1 = dni1;
+    }
+
+    public String getDni2() {
+        return dni2;
+    }
+
+    public void setDni2(String dni2) {
+        this.dni2 = dni2;
     }
 
     public Set<Role> getRoles() {
