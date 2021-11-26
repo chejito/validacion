@@ -25,9 +25,9 @@ public class JwtTokenUtil {
     private static final Logger log = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     @Value("${app.jwt.secret}")
-    private String jwtSecret;
+    private String JWT_SECRET;
     @Value("${app.jwt.expiration-ms}")
-    private int jwtExpirationMs;
+    private int JWT_EXPIRATION_MS;
     @Value("${jwt.authorities.key}")
     public String AUTHORITIES_KEY;
 
@@ -44,18 +44,18 @@ public class JwtTokenUtil {
                 // TODO: añadir autoridad al token
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setExpiration(new Date((new Date()).getTime() + JWT_EXPIRATION_MS))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getSubject();
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
@@ -75,7 +75,7 @@ public class JwtTokenUtil {
     //Test
     UsernamePasswordAuthenticationToken getAuthenticationToken(final String token, final Authentication existingAuth, final UserDetails userDetails) {
 
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(jwtSecret);
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(JWT_SECRET);
 
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
 

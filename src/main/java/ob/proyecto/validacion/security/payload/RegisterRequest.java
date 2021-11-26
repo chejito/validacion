@@ -3,6 +3,7 @@ package ob.proyecto.validacion.security.payload;
 public class RegisterRequest {
     private String name;
     private String surename;
+    private String email;
     private String username;
     private String password;
 
@@ -20,6 +21,14 @@ public class RegisterRequest {
 
     public void setSurename(String surename) {
         this.surename = surename;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

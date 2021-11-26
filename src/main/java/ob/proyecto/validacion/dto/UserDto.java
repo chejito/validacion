@@ -11,6 +11,7 @@ public class UserDto {
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private String fullname;
+    private String email;
     private String username;
     private String password;
     private String phone;
@@ -18,8 +19,9 @@ public class UserDto {
     private String dni1;
     private String dni2;
 
-    public UserDto(String fullname, String username, String password) {
+    public UserDto(String fullname, String email, String username, String password) {
         this.fullname = fullname;
+        this.email = email;
         this.username = username;
         this.password = password;
     }
@@ -30,6 +32,14 @@ public class UserDto {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

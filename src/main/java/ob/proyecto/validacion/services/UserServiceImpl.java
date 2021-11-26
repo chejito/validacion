@@ -36,19 +36,25 @@ public class UserServiceImpl implements UserService{
         List<User> list = userRepository.findAll();
 
         for (User user : list){
-            // Comprobacion 1: username (email)
+            // Comprobacion 1: username
             if (user.getUsername().equalsIgnoreCase(userDto.getUsername())){
                 return ResponseEntity
                         .badRequest()
-                        .body(new MessageResponse("Error: ¡El email " + userDto.getUsername() + " ya esta en uso!"));
+                        .body(new MessageResponse("Error: ¡El username " + userDto.getUsername() + " ya esta registrado!"));
             }
 
             // Comprobacion 2: fullname
             if (user.getFullname().equalsIgnoreCase(userDto.getFullname())){
                 return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡" + userDto.getFullname() + " ya está en registrado!"));
+                    .body(new MessageResponse("Error: ¡" + userDto.getFullname() + " ya está registrado!"));
             }
+
+            // Comprobacion 3: email
+            if (user.getEmail().equalsIgnoreCase(userDto.getEmail()))
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error: ¡" + userDto.getEmail() + " ya está registrado"));
 
         }
 

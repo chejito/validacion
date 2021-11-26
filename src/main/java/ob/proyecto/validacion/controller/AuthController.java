@@ -69,13 +69,16 @@ public class AuthController {
         //Comprueba que no hay campos vacios
         if (signUpRequest.getName() == null ||
             signUpRequest.getSurename() == null ||
+            signUpRequest.getEmail() == null ||
             signUpRequest.getUsername() == null ||
             signUpRequest.getPassword() == null)
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: es necesario enviar los campos name, surename, username y password"));
+                    .body(new MessageResponse("Error: es necesario enviar los campos name, surename, email, " +
+                            "username y password"));
 
         UserDto userDto = new UserDto(signUpRequest.getName() + " " + signUpRequest.getSurename(),
+                signUpRequest.getEmail(),
                 signUpRequest.getUsername(),
                 signUpRequest.getPassword());
 

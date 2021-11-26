@@ -20,6 +20,9 @@ public class User {
     private String username;
 
     @Column
+    private String email;
+
+    @Column
     private String password;
 
     @Column
@@ -46,8 +49,9 @@ public class User {
 
     public User() {}
 
-    public User(String fullname, String username, String password, Set<Role> roles) {
+    public User(String fullname, String email, String username, String password, Set<Role> roles) {
         this.fullname = fullname;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -67,6 +71,14 @@ public class User {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
