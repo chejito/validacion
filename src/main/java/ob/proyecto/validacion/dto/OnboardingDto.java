@@ -1,11 +1,15 @@
 package ob.proyecto.validacion.dto;
 
+import java.io.File;
+
 public class OnboardingDto {
 
     private String username;
     private String phone;
     private String dni1;
+    private File foto1;
     private String dni2;
+    private File foto2;
 
     public String getUsername() {
         return username;
@@ -37,5 +41,21 @@ public class OnboardingDto {
 
     public void setDni2(String dni2) {
         this.dni2 = dni2;
+    }
+
+    public File getFoto1() {
+        return foto1;
+    }
+
+    public void setFoto1(File foto1) {
+        this.foto1 = foto1;
+    }
+
+    public File getFoto2() {
+        return foto2;
+    }
+
+    public void setFoto2(File foto2) {
+        this.foto2 = foto2;
     }
 }

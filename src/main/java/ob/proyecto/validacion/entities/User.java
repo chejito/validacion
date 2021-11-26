@@ -1,8 +1,6 @@
 package ob.proyecto.validacion.entities;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,10 +30,10 @@ public class User {
     private boolean validated = false;
 
     @Column
-    private String dni1;
+    private String urlDni1;
 
     @Column
-    private String dni2;
+    private String urlDni2;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES",
@@ -113,20 +111,20 @@ public class User {
         this.phone = phone;
     }
 
-    public String getDni1() {
-        return dni1;
+    public String getUrlDni1() {
+        return urlDni1;
     }
 
-    public void setDni1(String dni1) {
-        this.dni1 = dni1;
+    public void setUrlDni1(String urlDni1) {
+        this.urlDni1 = urlDni1;
     }
 
-    public String getDni2() {
-        return dni2;
+    public String getUrlDni2() {
+        return urlDni2;
     }
 
-    public void setDni2(String dni2) {
-        this.dni2 = dni2;
+    public void setUrlDni2(String urlDni2) {
+        this.urlDni2 = urlDni2;
     }
 
     public Set<Role> getRoles() {

@@ -26,9 +26,14 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    @Autowired
+    private final UploadImageCloudinaryServiceImpl uploadService;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           UploadImageCloudinaryServiceImpl uploadService) {
         this.userRepository =  userRepository;
         this.roleRepository = roleRepository;
+        this.uploadService = uploadService;
     }
 
     @Override
@@ -68,7 +73,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<MessageResponse> addPhotosAndPhone(OnboardingDto onboardingDto) {
+    public ResponseEntity<?> addPhotosAndPhone(OnboardingDto onboardingDto) {
 
         Optional<User> user = userRepository.findByUsername(onboardingDto.getUsername());
 
@@ -77,14 +82,20 @@ public class UserServiceImpl implements UserService{
                     .badRequest()
                     .body(new MessageResponse("Error: ¡" + onboardingDto.getUsername() + " no existe!"));
 
-        user.get().setPhone(onboardingDto.getPhone());
-        user.get().setDni1(onboardingDto.getDni1());
-        user.get().setDni2(onboardingDto.getDni2());
+        try{
+            user.get().setPhone(onboardingDto.getPhone());
+            user.get().setUrlDni1(uploadService.uploadImage(onboardingDto.getFoto1()));
+            user.get().setUrlDni2(uploadService.uploadImage(onboardingDto.getFoto1()));
+            userRepository.save(user.get());
 
-        userRepository.save(user.get());
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
+        String dniUrl[] = {user.get().getUrlDni1(), user.get().getUrlDni2()};
 
         return ResponseEntity
-                .ok( new MessageResponse("DNI y phone actualizados"));
+                .ok(dniUrl);
     }
 
     @Override
@@ -101,5 +112,16 @@ public class UserServiceImpl implements UserService{
 
         return ResponseEntity
                 .ok( new MessageResponse("¡Usuario " + user.get().getUsername() + " validado!"));
+    }
+
+    public ResponseEntity<?> getUserDto(ValidationDto validationDto) {
+        Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
+
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
+
+        return ResponseEntity.ok(new UserDto(user.get()));
     }
 }

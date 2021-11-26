@@ -22,7 +22,7 @@ public class OnboardingController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/dni")
-    public ResponseEntity<MessageResponse> addPhotosAndPhone(@RequestBody OnboardingDto onboardingDto){
+    public ResponseEntity<?> addPhotosAndPhone(@RequestBody OnboardingDto onboardingDto){
 
         return userService.addPhotosAndPhone(onboardingDto);
     }
