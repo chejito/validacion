@@ -35,7 +35,6 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageService {
      */
     @Override
     public String uploadImage(File photo) throws IOException {
-        System.out.println(cloudName + " " + apiKey + " " + apiSecret  );
         Map response = cloudinary.uploader().upload((photo),
                 ObjectUtils.asMap("public_id", "olympic_flag"));
 
