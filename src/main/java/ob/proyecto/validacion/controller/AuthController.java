@@ -62,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MessageResponse> register(@RequestBody RegisterRequest signUpRequest) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest signUpRequest) {
 
         //Comprueba que no hay campos vacios
         if (signUpRequest.getName() == null ||

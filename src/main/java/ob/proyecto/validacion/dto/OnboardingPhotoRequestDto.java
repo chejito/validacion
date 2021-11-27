@@ -2,15 +2,15 @@ package ob.proyecto.validacion.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class OnboardingPhotoDto {
+public class OnboardingPhotoRequestDto {
 
     private String username;
     private MultipartFile photo;
 
-    public OnboardingPhotoDto() {
+    public OnboardingPhotoRequestDto() {
     }
 
-    public OnboardingPhotoDto(String username, MultipartFile photo) {
+    public OnboardingPhotoRequestDto(String username, MultipartFile photo) {
         this.username = username;
         this.photo = photo;
     }

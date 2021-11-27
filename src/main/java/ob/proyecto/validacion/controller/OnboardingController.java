@@ -1,13 +1,11 @@
 package ob.proyecto.validacion.controller;
 
-import ob.proyecto.validacion.dto.OnboardingDto;
+import ob.proyecto.validacion.dto.OnboardingRequestDto;
 import ob.proyecto.validacion.services.UserServiceImpl;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/onboarding")
@@ -20,9 +18,9 @@ public class OnboardingController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @PostMapping("/dni")
-    public ResponseEntity<?> addPhotosAndPhone(@RequestBody OnboardingDto onboardingDto){
+    @RequestMapping(value = "/dni", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto){
 
-        return userService.addPhotosAndPhone(onboardingDto);
+        return userService.addPhotosAndPhone(onboardingRequestDto);
     }
 }

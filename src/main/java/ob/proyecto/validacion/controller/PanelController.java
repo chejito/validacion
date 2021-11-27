@@ -22,7 +22,7 @@ public class PanelController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/validate")
-    public ResponseEntity<MessageResponse> validate(@RequestBody ValidationDto validationDto){
+    public ResponseEntity<?> validate(@RequestBody ValidationDto validationDto){
         return userService.validate(validationDto);
     }
 

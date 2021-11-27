@@ -1,6 +1,6 @@
 package ob.proyecto.validacion.controller;
 
-import ob.proyecto.validacion.dto.OnboardingPhotoDto;
+import ob.proyecto.validacion.dto.OnboardingPhotoRequestDto;
 import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class UploadPhotoController {
 
     @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/photo", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?>  addPhoto(OnboardingPhotoDto onboardingPhotoDto) {
-        return userService.addPhoto(onboardingPhotoDto);
+    public ResponseEntity<?>  addPhoto(OnboardingPhotoRequestDto onboardingPhotoRequestDto) {
+        return userService.addPhoto(onboardingPhotoRequestDto);
     }
 }
