@@ -114,6 +114,7 @@ public class UserDto {
         User user = new User();
         user.setUsername(username);
         user.setFullname(fullname);
+        user.setEmail(email);
         user.setPassword(encoder.encode(password));
         user.setPhone(phone);
         user.setRoles(roles);
