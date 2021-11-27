@@ -11,6 +11,7 @@ import ob.proyecto.validacion.security.payload.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -77,22 +78,23 @@ public class UserServiceImpl implements UserService{
 
         Optional<User> user = userRepository.findByUsername(onboardingDto.getUsername());
 
-        if (user == null)
+        if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: ¡" + onboardingDto.getUsername() + " no existe!"));
 
-        try{
+
+        try {
             user.get().setPhone(onboardingDto.getPhone());
-            user.get().setUrlDni1(uploadService.uploadImage(onboardingDto.getFoto1()));
-            user.get().setUrlDni2(uploadService.uploadImage(onboardingDto.getFoto1()));
+            user.get().setUrlDni1(uploadService.uploadImage((MultipartFile) onboardingDto.getFoto1()));
+            user.get().setUrlDni2(uploadService.uploadImage((MultipartFile) onboardingDto.getFoto1()));
             userRepository.save(user.get());
 
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
 
-        String dniUrl[] = {user.get().getUrlDni1(), user.get().getUrlDni2()};
+        String[] dniUrl = {user.get().getUrlDni1(), user.get().getUrlDni2()};
 
         return ResponseEntity
                 .ok(dniUrl);
@@ -102,7 +104,7 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<MessageResponse> validate(ValidationDto validationDto) {
         Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
 
-        if (user == null)
+        if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
@@ -117,7 +119,7 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<?> getUserDto(ValidationDto validationDto) {
         Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
 
-        if (user == null)
+        if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
