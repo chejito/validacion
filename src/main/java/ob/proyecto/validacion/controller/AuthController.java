@@ -1,6 +1,5 @@
 package ob.proyecto.validacion.controller;
 
-import ob.proyecto.validacion.dto.OnboardingDto;
 import ob.proyecto.validacion.dto.UserDto;
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.security.jwt.JwtTokenUtil;
@@ -10,7 +9,6 @@ import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.security.payload.RegisterRequest;
 import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -64,26 +62,24 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MessageResponse> register(@RequestBody RegisterRequest signUpRequest) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest signUpRequest) {
 
         //Comprueba que no hay campos vacios
         if (signUpRequest.getName() == null ||
-            signUpRequest.getSurename() == null ||
+            signUpRequest.getSurname() == null ||
             signUpRequest.getEmail() == null ||
             signUpRequest.getUsername() == null ||
             signUpRequest.getPassword() == null)
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: es necesario enviar los campos name, surename, email, " +
+                    .body(new MessageResponse("Error: es necesario enviar los campos name, surname, email, " +
                             "username y password"));
 
-        UserDto userDto = new UserDto(signUpRequest.getName() + " " + signUpRequest.getSurename(),
+        UserDto userDto = new UserDto(signUpRequest.getName() + " " + signUpRequest.getSurname(),
                 signUpRequest.getEmail(),
                 signUpRequest.getUsername(),
                 signUpRequest.getPassword());
 
-        ResponseEntity<MessageResponse> result = userService.register(userDto);
-
-        return result;
+        return userService.register(userDto);
     }
 }

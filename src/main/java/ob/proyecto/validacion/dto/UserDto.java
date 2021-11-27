@@ -16,14 +16,26 @@ public class UserDto {
     private String password;
     private String phone;
     private Set<Role> roles;
-    private String dni1;
-    private String dni2;
+    private String urlDni1;
+    private String urlDni2;
+    private boolean validated;
 
     public UserDto(String fullname, String email, String username, String password) {
         this.fullname = fullname;
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+
+    public UserDto(User user){
+        this.fullname = user.getFullname();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.phone = user.getPhone();
+        this.urlDni1 = user.getUrlDni1();
+        this.urlDni2 = user.getUrlDni2();
+        this.validated = user.isValidated();
     }
 
     public String getFullname() {
@@ -74,20 +86,28 @@ public class UserDto {
         this.phone = phone;
     }
 
-    public String getDni1() {
-        return dni1;
+    public String getUrlDni1() {
+        return urlDni1;
     }
 
-    public void setDni1(String dni1) {
-        this.dni1 = dni1;
+    public void setUrlDni1(String urlDni1) {
+        this.urlDni1 = urlDni1;
     }
 
-    public String getDni2() {
-        return dni2;
+    public String getUrlDni2() {
+        return urlDni2;
     }
 
-    public void setDni2(String dni2) {
-        this.dni2 = dni2;
+    public void setUrlDni2(String urlDni2) {
+        this.urlDni2 = urlDni2;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 
     public User getUserFromDto(){
@@ -97,8 +117,8 @@ public class UserDto {
         user.setPassword(encoder.encode(password));
         user.setPhone(phone);
         user.setRoles(roles);
-        user.setDni1(dni1);
-        user.setDni2(dni2);
+        user.setUrlDni1(urlDni1);
+        user.setUrlDni2(urlDni2);
 
         return user;
     }

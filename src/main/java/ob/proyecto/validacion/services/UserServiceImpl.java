@@ -1,8 +1,6 @@
 package ob.proyecto.validacion.services;
 
-import ob.proyecto.validacion.dto.OnboardingDto;
-import ob.proyecto.validacion.dto.UserDto;
-import ob.proyecto.validacion.dto.ValidationDto;
+import ob.proyecto.validacion.dto.*;
 import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.repositories.RoleRepository;
@@ -26,13 +24,18 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    @Autowired
+    private final UploadImageCloudinaryServiceImpl uploadService;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           UploadImageCloudinaryServiceImpl uploadService) {
         this.userRepository =  userRepository;
         this.roleRepository = roleRepository;
+        this.uploadService = uploadService;
     }
 
     @Override
-    public ResponseEntity<MessageResponse> register(UserDto userDto) {
+    public ResponseEntity<?> register(UserDto userDto) {
         List<User> list = userRepository.findAll();
 
         for (User user : list){
@@ -64,34 +67,64 @@ public class UserServiceImpl implements UserService{
         User user = userDto.getUserFromDto();
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("¡Usuario registrado satisfactoriamente!"));
+        return ResponseEntity.ok(new UserResponseDto("¡Usuario registrado satisfactoriamente!", user));
     }
 
     @Override
-    public ResponseEntity<MessageResponse> addPhotosAndPhone(OnboardingDto onboardingDto) {
+    public ResponseEntity<?> addPhoto(OnboardingPhotoRequestDto onboardingPhotoRequestDto) {
+        Optional<User> user = userRepository.findByUsername(onboardingPhotoRequestDto.getUsername());
 
-        Optional<User> user = userRepository.findByUsername(onboardingDto.getUsername());
-
-        if (user == null)
+        if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡" + onboardingDto.getUsername() + " no existe!"));
+                    .body(new MessageResponse("Error: ¡" + onboardingPhotoRequestDto.getUsername() + " no existe!"));
 
-        user.get().setPhone(onboardingDto.getPhone());
-        user.get().setDni1(onboardingDto.getDni1());
-        user.get().setDni2(onboardingDto.getDni2());
+        try {
+            user.get().setUrlDni1(uploadService.uploadImage(onboardingPhotoRequestDto.getPhoto()));
+            userRepository.save(user.get());
 
-        userRepository.save(user.get());
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
+        //String dniUrl = user.get().getUrlDni1();
 
         return ResponseEntity
-                .ok( new MessageResponse("DNI y phone actualizados"));
+                .ok(new UserResponseDto("Foto añadida.", user.get()));
     }
 
     @Override
-    public ResponseEntity<MessageResponse> validate(ValidationDto validationDto) {
+    public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto) {
+
+        Optional<User> user = userRepository.findByUsername(onboardingRequestDto.getUsername());
+
+        if (user.isEmpty())
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + onboardingRequestDto.getUsername() + " no existe!"));
+
+
+        try {
+            user.get().setPhone(onboardingRequestDto.getPhone());
+            user.get().setUrlDni1(uploadService.uploadImage(onboardingRequestDto.getPhoto1()));
+            user.get().setUrlDni2(uploadService.uploadImage(onboardingRequestDto.getPhoto2()));
+            userRepository.save(user.get());
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
+        //String[] dniUrl = {user.get().getUrlDni1(), user.get().getUrlDni2()};
+
+        return ResponseEntity
+                .ok(new UserResponseDto("Teléfono y fotos añadidas.", user.get()));
+    }
+
+    @Override
+    public ResponseEntity<?> validate(ValidationDto validationDto) {
         Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
 
-        if (user == null)
+        if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
@@ -100,6 +133,17 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user.get());
 
         return ResponseEntity
-                .ok( new MessageResponse("¡Usuario " + user.get().getUsername() + " validado!"));
+                .ok( new UserResponseDto("Usuario " + validationDto.getUsername() + " validado.", user.get()));
+    }
+
+    public ResponseEntity<?> getUserDto(ValidationDto validationDto) {
+        Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
+
+        if (user.isEmpty())
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
+
+        return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
     }
 }

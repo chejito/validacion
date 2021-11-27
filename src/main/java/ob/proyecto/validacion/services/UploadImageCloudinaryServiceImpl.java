@@ -3,8 +3,10 @@ package ob.proyecto.validacion.services;
 import com.cloudinary.*;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -31,13 +33,18 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageService {
      *
      * @param photo Imagen que se recibe
      * @return String con la url de la imagen alojada
-     * @throws IOException Si no se puede efectuar la subida del archivo
      */
     @Override
-    public String uploadImage(File photo) throws IOException {
-        Map response = cloudinary.uploader().upload((photo),
-                ObjectUtils.asMap("public_id", "olympic_flag"));
+    public String uploadImage(MultipartFile photo) {
+        try {
+            Map response = cloudinary.uploader().upload((photo.getBytes()),
+                    ObjectUtils.emptyMap());
 
-        return response.get("secure_url").toString();
+            return response.get("secure_url").toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
     }
+}
+
+
 }

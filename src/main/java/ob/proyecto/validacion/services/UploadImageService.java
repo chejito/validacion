@@ -1,5 +1,7 @@
 package ob.proyecto.validacion.services;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -8,5 +10,5 @@ import java.io.IOException;
  * a un servicio de alojamiento en la nube
  */
 public interface UploadImageService {
-    String uploadImage(File photo) throws IOException;
+    String uploadImage(MultipartFile photo) throws IOException;
 }
