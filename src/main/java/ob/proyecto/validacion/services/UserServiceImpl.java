@@ -1,6 +1,7 @@
 package ob.proyecto.validacion.services;
 
 import ob.proyecto.validacion.dto.OnboardingDto;
+import ob.proyecto.validacion.dto.OnboardingPhotoDto;
 import ob.proyecto.validacion.dto.UserDto;
 import ob.proyecto.validacion.dto.ValidationDto;
 import ob.proyecto.validacion.entities.Role;
@@ -74,6 +75,29 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public ResponseEntity<?> addPhoto(OnboardingPhotoDto onboardingPhotoDto) {
+        Optional<User> user = userRepository.findByUsername(onboardingPhotoDto.getUsername());
+
+        if (user.isEmpty())
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡" + onboardingPhotoDto.getUsername() + " no existe!"));
+
+        try {
+            user.get().setUrlDni1(uploadService.uploadImage(onboardingPhotoDto.getPhoto()));
+            userRepository.save(user.get());
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
+        String dniUrl = user.get().getUrlDni1();
+
+        return ResponseEntity
+                .ok(dniUrl);
+    }
+
+    @Override
     public ResponseEntity<?> addPhotosAndPhone(OnboardingDto onboardingDto) {
 
         Optional<User> user = userRepository.findByUsername(onboardingDto.getUsername());
@@ -87,7 +111,7 @@ public class UserServiceImpl implements UserService{
         try {
             user.get().setPhone(onboardingDto.getPhone());
             user.get().setUrlDni1(uploadService.uploadImage((MultipartFile) onboardingDto.getFoto1()));
-            user.get().setUrlDni2(uploadService.uploadImage((MultipartFile) onboardingDto.getFoto1()));
+            user.get().setUrlDni2(uploadService.uploadImage((MultipartFile) onboardingDto.getFoto2()));
             userRepository.save(user.get());
 
         } catch (Exception e){

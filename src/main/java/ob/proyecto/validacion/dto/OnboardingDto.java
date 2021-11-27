@@ -1,15 +1,27 @@
 package ob.proyecto.validacion.dto;
 
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
 public class OnboardingDto {
 
     private String username;
     private String phone;
     private String dni1;
-    private File foto1;
+    private MultipartFile foto1;
     private String dni2;
-    private File foto2;
+    private MultipartFile foto2;
+
+    public OnboardingDto() {
+    }
+
+    public OnboardingDto(String username, String phone, String dni1, MultipartFile foto1, String dni2, MultipartFile foto2) {
+        this.username = username;
+        this.phone = phone;
+        this.dni1 = dni1;
+        this.foto1 = foto1;
+        this.dni2 = dni2;
+        this.foto2 = foto2;
+    }
 
     public String getUsername() {
         return username;
@@ -35,6 +47,14 @@ public class OnboardingDto {
         this.dni1 = dni1;
     }
 
+    public MultipartFile getFoto1() {
+        return foto1;
+    }
+
+    public void setFoto1(MultipartFile foto1) {
+        this.foto1 = foto1;
+    }
+
     public String getDni2() {
         return dni2;
     }
@@ -43,19 +63,11 @@ public class OnboardingDto {
         this.dni2 = dni2;
     }
 
-    public File getFoto1() {
-        return foto1;
-    }
-
-    public void setFoto1(File foto1) {
-        this.foto1 = foto1;
-    }
-
-    public File getFoto2() {
+    public MultipartFile getFoto2() {
         return foto2;
     }
 
-    public void setFoto2(File foto2) {
+    public void setFoto2(MultipartFile foto2) {
         this.foto2 = foto2;
     }
 }

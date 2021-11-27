@@ -1,7 +1,6 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingDto;
-import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
