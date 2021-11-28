@@ -17,11 +17,18 @@ public class OnboardingController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAuthority('USER')")
+    /*@PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/dni", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto){
 
         return userService.addPhotosAndPhone(onboardingRequestDto);
+    }*/
+
+    @PreAuthorize("hasAuthority('USER')")
+    @RequestMapping(value = "/dni/{id}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> addPhotosAndPhone(@PathVariable Long id, OnboardingRequestDto onboardingRequestDto){
+
+        return userService.addPhotosAndPhone(id, onboardingRequestDto);
     }
 
     @PreAuthorize("hasAuthority('USER')")

@@ -4,7 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class OnboardingRequestDto {
 
-    private String username;
     private String phone;
     private MultipartFile photo1;
     private MultipartFile photo2;
@@ -12,19 +11,10 @@ public class OnboardingRequestDto {
     public OnboardingRequestDto() {
     }
 
-    public OnboardingRequestDto(String username, String phone, MultipartFile photo1, MultipartFile photo2) {
-        this.username = username;
+    public OnboardingRequestDto(String phone, MultipartFile photo1, MultipartFile photo2) {
         this.phone = phone;
         this.photo1 = photo1;
         this.photo2 = photo2;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPhone() {
