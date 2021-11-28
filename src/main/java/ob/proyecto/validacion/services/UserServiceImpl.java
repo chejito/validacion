@@ -70,38 +70,17 @@ public class UserServiceImpl implements UserService{
         return ResponseEntity.ok(new UserResponseDto("¡Usuario registrado satisfactoriamente!", user));
     }
 
+
+
     @Override
-    public ResponseEntity<?> addPhoto(OnboardingPhotoRequestDto onboardingPhotoRequestDto) {
-        Optional<User> user = userRepository.findByUsername(onboardingPhotoRequestDto.getUsername());
+    public ResponseEntity<?> addPhotosAndPhone(Long id, OnboardingRequestDto onboardingRequestDto) {
+
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡" + onboardingPhotoRequestDto.getUsername() + " no existe!"));
-
-        try {
-            user.get().setUrlDni1(uploadService.uploadImage(onboardingPhotoRequestDto.getPhoto()));
-            userRepository.save(user.get());
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-
-        //String dniUrl = user.get().getUrlDni1();
-
-        return ResponseEntity
-                .ok(new UserResponseDto("Foto añadida.", user.get()));
-    }
-
-    @Override
-    public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto) {
-
-        Optional<User> user = userRepository.findByUsername(onboardingRequestDto.getUsername());
-
-        if (user.isEmpty())
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: ¡" + onboardingRequestDto.getUsername() + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
 
 
         try {
@@ -113,8 +92,6 @@ public class UserServiceImpl implements UserService{
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
-
-        //String[] dniUrl = {user.get().getUrlDni1(), user.get().getUrlDni2()};
 
         return ResponseEntity
                 .ok(new UserResponseDto("Teléfono y fotos añadidas.", user.get()));
