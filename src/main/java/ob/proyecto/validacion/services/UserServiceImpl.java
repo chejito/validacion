@@ -70,17 +70,15 @@ public class UserServiceImpl implements UserService{
         return ResponseEntity.ok(new UserResponseDto("¡Usuario registrado satisfactoriamente!", user));
     }
 
-
-
     @Override
-    public ResponseEntity<?> addPhotosAndPhone(Long id, OnboardingRequestDto onboardingRequestDto) {
+    public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto) {
 
-        Optional<User> user = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(onboardingRequestDto.getId());
 
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con id " + onboardingRequestDto.getId() + " no existe!"));
 
 
         try {
@@ -106,11 +104,15 @@ public class UserServiceImpl implements UserService{
                     .badRequest()
                     .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
 
-        user.get().setValidated(true);
-        userRepository.save(user.get());
+        User nUser = user.get();
+
+        if (!nUser.isValidated()){
+            nUser.setValidated(true);
+            userRepository.save(nUser);
+        }
 
         return ResponseEntity
-                .ok( new UserResponseDto("Usuario con id " + id + " validado.", user.get()));
+                .ok( new UserResponseDto("Usuario con id " + id + " validado.", nUser));
     }
 
     @Override

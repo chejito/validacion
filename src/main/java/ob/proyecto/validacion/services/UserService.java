@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
 
     ResponseEntity<?> register(UserDto userDto);
-    ResponseEntity<?> addPhotosAndPhone(Long id, OnboardingRequestDto onboardingRequestDto);
+    ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto);
     ResponseEntity<?> validate(Long id);
     ResponseEntity<?> getUser(Long id);
     ResponseEntity<?> getAllUsers();
