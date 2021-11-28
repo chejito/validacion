@@ -12,6 +12,7 @@ public interface UserService {
     ResponseEntity<?> register(UserDto userDto);
     ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto);
     ResponseEntity<?> addPhoto(OnboardingPhotoRequestDto onboardingPhotoRequestDto);
-    ResponseEntity<?> validate(ValidationDto validationDto);
-    ResponseEntity<?> getUserDto(ValidationDto validationDto);
+    ResponseEntity<?> validate(Long id);
+    ResponseEntity<?> getUser(Long id);
+    ResponseEntity<?> getAllUsers();
 }

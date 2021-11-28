@@ -21,31 +21,9 @@ public class ValidacionApplication {
 		BCryptPasswordEncoder encoder = context.getBean(BCryptPasswordEncoder.class);
 		UploadImageService upload = context.getBean(UploadImageCloudinaryServiceImpl.class);
 
-		Role userRole = new Role (null, "USER");
-		Role adminRole = new Role (null, "ADMIN");
 
-		roleRepository.save(userRole);
-		roleRepository.save(adminRole);
 
-//		User user1 = new User();
-//		user1.setUsername("admin");
-//		user1.setEmail("admin@admin.com");
-//		user1.setPassword(encoder.encode("admin"));
-//		Set<Role> roles = new HashSet<>();
-//		roles.add(userRole);
-//		roles.add(adminRole);
-//		user1.setRoles(roles);
 
-//		userRepository.save(user1);
-
-		/*File photo1 = new File("src/main/resources/images/imagen1.png");
-
-		try {
-			String url = upload.uploadImage(photo1);
-			System.out.println("La url de la imagen es: " +  url);
-		} catch (Exception e) {
-			System.err.println("No se ha podido guardar la imagen. Error: " + e.getMessage());
-		}*/
 
 	}
 

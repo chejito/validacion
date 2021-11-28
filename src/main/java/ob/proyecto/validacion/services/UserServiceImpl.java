@@ -121,29 +121,37 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> validate(ValidationDto validationDto) {
-        Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
+    public ResponseEntity<?> validate(Long id) {
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
 
         user.get().setValidated(true);
         userRepository.save(user.get());
 
         return ResponseEntity
-                .ok( new UserResponseDto("Usuario " + validationDto.getUsername() + " validado.", user.get()));
+                .ok( new UserResponseDto("Usuario con id " + id + " validado.", user.get()));
     }
 
-    public ResponseEntity<?> getUserDto(ValidationDto validationDto) {
-        Optional<User> user = userRepository.findByUsername(validationDto.getUsername());
+    @Override
+    public ResponseEntity<?> getUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡" + validationDto.getUsername() + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
 
         return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
+    }
+
+    @Override
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        return ResponseEntity.ok(new UserListResponseDto("Listado de usuarios", users));
     }
 }
