@@ -22,9 +22,9 @@ public class PanelController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/users/{id}")
-    public ResponseEntity<?>  getUser(@PathVariable Long id){
-        return userService.getUser(id);
+    @GetMapping("/users/{username}")
+    public ResponseEntity<?>  getUser(@PathVariable String username){
+        return userService.getUserByUsername(username);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
