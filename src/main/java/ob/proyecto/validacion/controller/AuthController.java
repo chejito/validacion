@@ -1,12 +1,13 @@
 package ob.proyecto.validacion.controller;
 
-import ob.proyecto.validacion.entities.User;
-import ob.proyecto.validacion.repositories.UserRepository;
+import ob.proyecto.validacion.dto.UserDto;
+import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.security.jwt.JwtTokenUtil;
 import ob.proyecto.validacion.security.payload.JwtResponse;
 import ob.proyecto.validacion.security.payload.LoginRequest;
 import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.security.payload.RegisterRequest;
+import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,18 +30,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authManager;
-    private final UserRepository userRepository;
+    private final UserServiceImpl userService;
     private final PasswordEncoder encoder;
     private final JwtTokenUtil jwtTokenUtil;
+    private final RoleRepository roleRepository;
 
     public AuthController(AuthenticationManager authManager,
-                          UserRepository userRepository,
+                          UserServiceImpl userService,
                           PasswordEncoder encoder,
-                          JwtTokenUtil jwtTokenUtil){
+                          JwtTokenUtil jwtTokenUtil,
+                          RoleRepository roleRepository){
         this.authManager = authManager;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.encoder = encoder;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.roleRepository = roleRepository;
     }
 
     @PostMapping("/login")
@@ -58,29 +62,24 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MessageResponse> register(@RequestBody RegisterRequest signUpRequest) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest signUpRequest) {
 
-        // Comprobación 1: username
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        //Comprueba que no hay campos vacios
+        if (signUpRequest.getName() == null ||
+            signUpRequest.getSurname() == null ||
+            signUpRequest.getEmail() == null ||
+            signUpRequest.getUsername() == null ||
+            signUpRequest.getPassword() == null)
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Nombre de usuario ya utilizado!"));
-        }
+                    .body(new MessageResponse("Error: es necesario enviar los campos name, surname, email, " +
+                            "username y password"));
 
-        // Comprobación 2: email
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: ¡Dirección de Email ya está en uso!"));
-        }
-
-        // Crea nueva cuenta de usuario
-        User user = new User(signUpRequest.getUsername(),
+        UserDto userDto = new UserDto(signUpRequest.getName() + " " + signUpRequest.getSurname(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                signUpRequest.getUsername(),
+                signUpRequest.getPassword());
 
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("¡Usuario registrado satisfactoriamente!"));
+        return userService.register(userDto);
     }
 }
