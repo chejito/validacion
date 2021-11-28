@@ -128,6 +128,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public ResponseEntity<?> getUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty())
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + user + " no existe!"));
+
+        return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
+    }
+
+    @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
 

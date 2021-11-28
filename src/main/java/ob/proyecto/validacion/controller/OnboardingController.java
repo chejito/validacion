@@ -25,8 +25,8 @@ public class OnboardingController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/{id}")
-    public ResponseEntity<?>  getUser(@PathVariable Long id){
-        return userService.getUser(id);
+    @GetMapping("/{username}")
+    public ResponseEntity<?>  getUser(@PathVariable String username){
+        return userService.getUserByUsername(username);
     }
 }

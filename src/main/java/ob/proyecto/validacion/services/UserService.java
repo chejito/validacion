@@ -10,5 +10,6 @@ public interface UserService {
     ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto);
     ResponseEntity<?> validate(Long id);
     ResponseEntity<?> getUser(Long id);
+    ResponseEntity<?> getUserByUsername(String username);
     ResponseEntity<?> getAllUsers();
 }
