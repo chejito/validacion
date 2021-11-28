@@ -23,4 +23,10 @@ public class OnboardingController {
 
         return userService.addPhotosAndPhone(onboardingRequestDto);
     }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?>  getUser(@PathVariable Long id){
+        return userService.getUser(id);
+    }
 }

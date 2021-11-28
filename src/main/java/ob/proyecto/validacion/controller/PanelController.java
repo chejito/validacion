@@ -1,14 +1,10 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.ValidationDto;
-import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/panel")
@@ -21,14 +17,20 @@ public class PanelController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/validate")
-    public ResponseEntity<?> validate(@RequestBody ValidationDto validationDto){
-        return userService.validate(validationDto);
+    @PostMapping("/validate/{id}")
+    public ResponseEntity<?> validate(@PathVariable Long id){
+        return userService.validate(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/users")
-    public ResponseEntity<?>  getUserDto(@RequestBody ValidationDto validationDto){
-        return userService.getUserDto(validationDto);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?>  getUser(@PathVariable Long id){
+        return userService.getUser(id);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/users")
+    public ResponseEntity<?>  getAllUsers(){
+        return userService.getAllUsers();
     }
 }
