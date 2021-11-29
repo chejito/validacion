@@ -17,7 +17,6 @@ public class UserDto {
     private String email;
     private String username;
     private String password;
-    private String phone;
     private Set<Role> roles;
     private String urlDni1;
     private String urlDni2;
@@ -35,7 +34,6 @@ public class UserDto {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.phone = user.getPhone();
         this.urlDni1 = user.getUrlDni1();
         this.urlDni2 = user.getUrlDni2();
         this.validated = user.isValidated();
@@ -81,14 +79,6 @@ public class UserDto {
         this.roles = roles;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getUrlDni1() {
         return urlDni1;
     }
@@ -123,7 +113,6 @@ public class UserDto {
         user.setFullname(fullname);
         user.setEmail(email);
         user.setPassword(encoder.encode(password));
-        user.setPhone(phone);
         user.setRoles(roles);
         user.setUrlDni1(urlDni1);
         user.setUrlDni2(urlDni2);

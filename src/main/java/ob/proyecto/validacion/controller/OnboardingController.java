@@ -8,8 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controlador del proceso Onboarding, en el que el usuario añade su número de teléfono y dos fotografías
- * de su documento de identidad y se guardarán en un servicio de alojamiento en la nube.
+ * Controlador del proceso Onboarding, en el que el usuario añade dos fotografías de su documento de identidad
+ * y se guardarán en un servicio de alojamiento en la nube, para su posterior validación.
  */
 @RestController
 @RequestMapping("/api/onboarding")
@@ -26,11 +26,11 @@ public class OnboardingController {
      * @param onboardingRequestDto La información para actualizar.
      * @return El Usuario actualizado y un mensaje de texto.
      */
-    @PreAuthorize("hasAuthority('USER')")
-    @RequestMapping(value = "/dni", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto){
+//    @PreAuthorize("hasAuthority('USER')")
+    @RequestMapping(value = "/photos/{username}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> addPhotos(@PathVariable String username, OnboardingRequestDto onboardingRequestDto){
 
-        return userService.addPhotosAndPhone(onboardingRequestDto);
+        return userService.addPhotos(username,onboardingRequestDto);
     }
 
     /**

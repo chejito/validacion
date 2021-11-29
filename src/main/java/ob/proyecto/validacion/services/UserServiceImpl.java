@@ -86,9 +86,9 @@ public class UserServiceImpl implements UserService{
      * @return Usuario modificado.
      */
     @Override
-    public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto) {
+    public ResponseEntity<?> addPhotos(String username, OnboardingRequestDto onboardingRequestDto) {
 
-        Optional<User> user = userRepository.findById(onboardingRequestDto.getId());
+        Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isEmpty())
             return ResponseEntity
@@ -97,7 +97,6 @@ public class UserServiceImpl implements UserService{
 
 
         try {
-            user.get().setPhone(onboardingRequestDto.getPhone());
             user.get().setUrlDni1(uploadService.uploadImage(onboardingRequestDto.getPhoto1()));
             user.get().setUrlDni2(uploadService.uploadImage(onboardingRequestDto.getPhoto2()));
             userRepository.save(user.get());

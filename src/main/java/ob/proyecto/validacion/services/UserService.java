@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
 
     ResponseEntity<?> register(UserDto userDto);
-    ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto);
+    ResponseEntity<?> addPhotos(String username, OnboardingRequestDto onboardingRequestDto);
     ResponseEntity<?> validate(String username);
     ResponseEntity<?> getUserByUsername(String username);
     ResponseEntity<?> getAllUsers();
