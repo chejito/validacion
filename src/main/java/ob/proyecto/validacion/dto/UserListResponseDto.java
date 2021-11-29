@@ -3,7 +3,9 @@ package ob.proyecto.validacion.dto;
 import ob.proyecto.validacion.entities.User;
 
 import java.util.List;
-
+/**
+ * Clase DTO para listar usuarios de la base de datos.
+ */
 public class UserListResponseDto {
 
     private String message;

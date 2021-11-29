@@ -6,6 +6,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;
 
+/**
+ * Clase DTO para el registro y login de usuarios.
+ */
 public class UserDto {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -110,6 +113,10 @@ public class UserDto {
         this.validated = validated;
     }
 
+    /**
+     * Método que devuelve un usuario a partir de los atributos de UserDto
+     * @return Usuario nuevo.
+     */
     public User getUserFromDto(){
         User user = new User();
         user.setUsername(username);

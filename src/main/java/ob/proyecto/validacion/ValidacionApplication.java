@@ -15,15 +15,7 @@ public class ValidacionApplication {
 
 	public static void main(String[] args) {
 
-		ApplicationContext context = SpringApplication.run(ValidacionApplication.class, args);
-		RoleRepository roleRepository = context.getBean(RoleRepository.class);
-		UserRepository userRepository = context.getBean(UserRepository.class);
-		BCryptPasswordEncoder encoder = context.getBean(BCryptPasswordEncoder.class);
-		UploadImageService upload = context.getBean(UploadImageCloudinaryServiceImpl.class);
-
-
-
-
+		SpringApplication.run(ValidacionApplication.class, args);
 
 	}
 

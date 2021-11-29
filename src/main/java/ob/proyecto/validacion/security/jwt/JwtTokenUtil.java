@@ -31,6 +31,12 @@ public class JwtTokenUtil {
     @Value("${jwt.authorities.key}")
     public String AUTHORITIES_KEY;
 
+    /**
+     * Método que genera un token.
+     *
+     * * @param authentication Tipo de autenticación.
+     * @return Token generado.
+     */
     public String generateJwtToken(Authentication authentication) {
 
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
@@ -49,10 +55,22 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    /**
+     * Método que extrae el username de un token.
+     *
+     * @param token Token suministrado.
+     * @return username incluído en el token.
+     */
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getSubject();
     }
 
+    /**
+     * Método que valida los token JWT.
+     *
+     * @param authToken Token suministrado.
+     * @return true si se valida. En caso negativo, false.
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
@@ -72,7 +90,14 @@ public class JwtTokenUtil {
         return false;
     }
 
-    //Test
+    /**
+     * Método que devuelve un token añadiendo los datos del usuario (username y password), así como los roles.
+     *
+     * @param token Token suministrado.
+     * @param existingAuth Tipo de autenticación
+     * @param userDetails Datos del usuario.
+     * @return Token modificado con los datos del usuario.
+     */
     UsernamePasswordAuthenticationToken getAuthenticationToken(final String token, final Authentication existingAuth, final UserDetails userDetails) {
 
         final JwtParser jwtParser = Jwts.parser().setSigningKey(JWT_SECRET);

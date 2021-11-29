@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Implementación de la interfaz UserService.
+ */
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -34,6 +37,11 @@ public class UserServiceImpl implements UserService{
         this.uploadService = uploadService;
     }
 
+    /**
+     * Método que crea un nuevo usuario en la base de datos.
+     * @param userDto Datos del nuevo usuario.
+     * @return Nuevo usuario creado.
+     */
     @Override
     public ResponseEntity<?> register(UserDto userDto) {
         List<User> list = userRepository.findAll();
@@ -70,6 +78,13 @@ public class UserServiceImpl implements UserService{
         return ResponseEntity.ok(new UserResponseDto("¡Usuario registrado satisfactoriamente!", user));
     }
 
+    /**
+     * Método que modifica el usuario, añadiéndole el número de teléfono
+     * y dos direcciones url de dos fotografías alojadas en la nube.
+     *
+     * @param onboardingRequestDto Datos de teléfono y los dos archivos de imágen.
+     * @return Usuario modificado.
+     */
     @Override
     public ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto) {
 
@@ -95,6 +110,12 @@ public class UserServiceImpl implements UserService{
                 .ok(new UserResponseDto("Teléfono y fotos añadidas.", user.get()));
     }
 
+    /**
+     * Método que permite validar a un usuario.
+     *
+     * @param username Nombre de usuario del usuario a validar.
+     * @return Usuario validado.
+     */
     @Override
     public ResponseEntity<?> validate(String username) {
         Optional<User> user = userRepository.findByUsername(username);
@@ -115,18 +136,11 @@ public class UserServiceImpl implements UserService{
                 .ok( new UserResponseDto("Usuario con nombre de usuario " + username + " validado.", nUser));
     }
 
-    @Override
-    public ResponseEntity<?> getUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-
-        if (user.isEmpty())
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
-
-        return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
-    }
-
+    /**
+     * Método que devuelve un usuario si existe en la base de datos.
+     * @param username Nombre de usuario del usuario a devolver.
+     * @return Usuario solicitado.
+     */
     @Override
     public ResponseEntity<?> getUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
@@ -139,6 +153,10 @@ public class UserServiceImpl implements UserService{
         return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
     }
 
+    /**
+     * Método que devuelve todos los usuarios en la base de datos.
+     * @return Lista de usuarios.
+     */
     @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
