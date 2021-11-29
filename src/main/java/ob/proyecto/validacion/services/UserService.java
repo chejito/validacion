@@ -8,7 +8,7 @@ public interface UserService {
 
     ResponseEntity<?> register(UserDto userDto);
     ResponseEntity<?> addPhotosAndPhone(OnboardingRequestDto onboardingRequestDto);
-    ResponseEntity<?> validate(Long id);
+    ResponseEntity<?> validate(String username);
     ResponseEntity<?> getUser(Long id);
     ResponseEntity<?> getUserByUsername(String username);
     ResponseEntity<?> getAllUsers();
