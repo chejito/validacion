@@ -1,5 +1,8 @@
 package ob.proyecto.validacion.security.payload;
 
+/**
+ * Clase DTO para devolver mensajes genéricos como respuesta.
+ */
 public class MessageResponse {
     private String message;
 

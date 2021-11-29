@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Local",
+			"name": "Auth",
 			"item": [
 				{
 					"name": "/api/auth/register",
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Sergio\",\n    \"email\": \"sergio@gmail.com\",\n    \"password\": \"sergio\"\n}",
+							"raw": "{\n    \"name\": \"User6\",\n    \"surname\": \"User\",\n    \"username\": \"87654321F\",\n    \"email\": \"user6@user.com\",\n    \"password\": \"user6\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,12 +23,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/auth/register",
-							"protocol": "http",
+							"raw": "{{host}}/api/auth/register",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -39,13 +37,13 @@
 					"response": []
 				},
 				{
-					"name": "/api/auth/login",
+					"name": "/api/auth/login (admin)",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Sergio\",\n    \"email\": \"sergio@gmail.com\",\n    \"password\": \"sergio\"\n}",
+							"raw": "{\n    \"username\": \"12345678I\",\n    \"password\": \"admin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -53,16 +51,239 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/auth/register",
-							"protocol": "http",
+							"raw": "{{host}}/api/auth/login",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"auth",
-								"register"
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/auth/login (user)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"87654321F\",\n    \"password\": \"user6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Panel",
+			"item": [
+				{
+					"name": "/api/panel/users/{username}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3OEkiLCJyb2xlcyI6IkFETUlOIiwiaWF0IjoxNjM4MTA1Njc3LCJleHAiOjE2MzgxOTIwNzd9.UoLoVBUdYMxvIMnW0oKAuSaWeFt5wMLnsQuMbbLh_8kGrcsKQ-GYgbOnIiCLr2hV_Gfkukpv_k6VJMFKoH6ZrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/panel/users/87654321F",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"panel",
+								"users",
+								"87654321F"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/panel/users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3OEkiLCJyb2xlcyI6IkFETUlOLFVTRVIiLCJpYXQiOjE2MzgxMTczMjAsImV4cCI6MTYzODIwMzcyMH0.csxtkXWq6qaX_3LczNsxGsuCzetsVsksJ7atj_pTtWiiIfSdlUmeOpY3MVW7JRoubovPVgaaYH40mKdja1f3Yw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/panel/users/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"panel",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/panel/validate/{username}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3OEkiLCJyb2xlcyI6IkFETUlOIiwiaWF0IjoxNjM4MTA1Njc3LCJleHAiOjE2MzgxOTIwNzd9.UoLoVBUdYMxvIMnW0oKAuSaWeFt5wMLnsQuMbbLh_8kGrcsKQ-GYgbOnIiCLr2hV_Gfkukpv_k6VJMFKoH6ZrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/panel/validate/87654321F",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"panel",
+								"validate",
+								"87654321F"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Onboarding",
+			"item": [
+				{
+					"name": "/api/onboarding/dni",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4NzY1NDMyMUYiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2MzgxOTA2NzIsImV4cCI6MTYzODI3NzA3Mn0.rDU-3xGdZR5noN7gDpdW-7oJZtSxq3rK1bozvcfB-40G5rshCVvyuR1RmV1QVj_76HslYA9w7BG2DNsRRN5JHQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "432-11-11-234",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "photo1",
+									"type": "file",
+									"src": "/home/sergio/Imágenes/bug-curso-html-css.png"
+								},
+								{
+									"key": "photo2",
+									"type": "file",
+									"src": "/home/sergio/Imágenes/bug-curso-js.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/onboarding/dni",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"onboarding",
+								"dni"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/onboarding/{username}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3OEkiLCJyb2xlcyI6IkFETUlOLFVTRVIiLCJpYXQiOjE2MzgxOTA3NDksImV4cCI6MTYzODI3NzE0OX0.OMjZ1Ly9yKJsL3PS9-ginH7ovHw2hw43rSH2KYYhoypngSrWH_cKsZO_jFjwdQEaEoWfzUaDRRAE_TM8NoPSnQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/onboarding/87654321F",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"onboarding",
+								"87654321F"
 							]
 						}
 					},

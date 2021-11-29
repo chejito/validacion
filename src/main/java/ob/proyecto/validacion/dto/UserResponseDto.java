@@ -1,7 +1,9 @@
 package ob.proyecto.validacion.dto;
 
 import ob.proyecto.validacion.entities.User;
-
+/**
+ * Clase DTO para el devolver un usuario en la respuesta, junto con un mensaje de texto.
+ */
 public class UserResponseDto {
 
     private String message;

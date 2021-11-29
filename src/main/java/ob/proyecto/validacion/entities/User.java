@@ -2,7 +2,9 @@ package ob.proyecto.validacion.entities;
 
 import javax.persistence.*;
 import java.util.Set;
-
+/**
+ * Entidad que gestiona los usuarios en la base de datos.
+ */
 @Entity
 @Table(name = "users")
 public class User {
