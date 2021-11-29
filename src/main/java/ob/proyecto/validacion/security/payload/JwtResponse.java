@@ -1,5 +1,8 @@
 package ob.proyecto.validacion.security.payload;
 
+/**
+ * Clase DTO para devolver un token JWT como respuesta.
+ */
 public class JwtResponse {
     private String token;
 

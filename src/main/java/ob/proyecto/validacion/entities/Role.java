@@ -2,6 +2,9 @@ package ob.proyecto.validacion.entities;
 
 import javax.persistence.*;
 
+/**
+ * Entidad que gestiona los roles de usuarios en la base de datos.
+ */
 @Entity
 @Table(name = "roles")
 public class Role {

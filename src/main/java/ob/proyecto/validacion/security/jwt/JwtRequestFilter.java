@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filtro para las requests que llegan a los endpoints
+ */
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -53,8 +56,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     /**
      * A partir de una cabecera Authorization extrae el token
-     * @param request
-     * @return
+     * @param request Petición a autorizar
+     * @return Token extraído.
      */
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");

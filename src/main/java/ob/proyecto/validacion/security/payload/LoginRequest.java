@@ -1,5 +1,7 @@
 package ob.proyecto.validacion.security.payload;
-
+/**
+ * Clase DTO para las peticiones de login de usuarios.
+  */
 public class LoginRequest {
     private String username;
     private String password;

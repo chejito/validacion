@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Autentica un usuario en la base de datos
+ * Servicio que gestiona los detalles de usuarios
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -24,7 +24,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    // Username = email
+    /**
+     * Método que devuelve los detalles de un usuario guardado en la base de datos.
+     *
+     * @param username Nombre de usuario del usuario.
+     * @return Detalles del usuario.
+     * @throws UsernameNotFoundException Si el nombre de usuario no existe en la base de datos.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
@@ -34,11 +40,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getUsername(),user.getPassword(), getAuthority(user));
     }
 
+    /**
+     * Método que devuelve un listado de los roles que el usuario posee.
+     * @param user Usuario a consultar.
+     * @return Roles del usuario
+     */
     private Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return authorities;
     }
 }

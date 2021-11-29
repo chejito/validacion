@@ -24,6 +24,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Clase que configura la seguridad
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -35,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthEntryPoint unauthorizedHandler;
 
-    // Creación de Beans
     @Bean
     public JwtRequestFilter authenticationJwtTokenFilter() {
         return new JwtRequestFilter();
@@ -51,7 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // Configuracion global de CORS para toda la aplicación
+    /**
+     * Método que modifica la configuracion global de CORS para toda la aplicación.
+     *
+     * @return Configuración de CORS.
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -64,12 +70,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    // Sobreescritura de funcionalidad security por defecto
+    /**
+     * Método que sobreescribe la configuración de AuthenticationManagerBuilder.
+     *
+     * @param auth AuteniticationManagerBuilder
+     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * Método que sobreescribe la configuración de HttpSecurity
+     *
+     * @param http HttpSecurity
+     * @throws Exception Excepción
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // Cross-Site Request Forgery CSRF
@@ -85,7 +101,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
+    /**
+     * Método que sobreescribe la configuración de WebSecurity
+     *
+     * @param web WebSecurity
+     */
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/v2/api-docs",
