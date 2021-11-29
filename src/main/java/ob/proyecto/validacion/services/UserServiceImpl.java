@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService{
      * Método que modifica el usuario, añadiéndole el número de teléfono
      * y dos direcciones url de dos fotografías alojadas en la nube.
      *
-     * @param onboardingRequestDto Datos de teléfono y los dos archivos de imágen.
+     * @param onboardingRequestDto Los dos archivos de imágen.
      * @return Usuario modificado.
      */
     @Override
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService{
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con id " + onboardingRequestDto.getId() + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username +  " no existe!"));
 
 
         try {
