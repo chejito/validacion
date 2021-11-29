@@ -26,9 +26,6 @@ public class User {
     private String password;
 
     @Column
-    private String phone;
-
-    @Column
     private boolean validated = false;
 
     @Column
@@ -103,14 +100,6 @@ public class User {
 
     public void setValidated(boolean validated) {
         this.validated = validated;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getUrlDni1() {
