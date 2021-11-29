@@ -96,13 +96,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> validate(Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<?> validate(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con id " + id + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username + " no existe!"));
 
         User nUser = user.get();
 
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService{
         }
 
         return ResponseEntity
-                .ok( new UserResponseDto("Usuario con id " + id + " validado.", nUser));
+                .ok( new UserResponseDto("Usuario con nombre de usuario " + username + " validado.", nUser));
     }
 
     @Override
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService{
         if (user.isEmpty())
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + user + " no existe!"));
+                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username + " no existe!"));
 
         return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
     }

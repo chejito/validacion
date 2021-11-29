@@ -16,9 +16,9 @@ public class PanelController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/validate/{id}")
-    public ResponseEntity<?> validate(@PathVariable Long id){
-        return userService.validate(id);
+    @PutMapping("/validate/{username}")
+    public ResponseEntity<?> validate(@PathVariable String username){
+        return userService.validate(username);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
