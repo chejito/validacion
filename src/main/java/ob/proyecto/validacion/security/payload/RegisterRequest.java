@@ -1,4 +1,5 @@
 package ob.proyecto.validacion.security.payload;
+
 /**
  * Clase DTO para las peticiones de registro de usuarios.
  */
