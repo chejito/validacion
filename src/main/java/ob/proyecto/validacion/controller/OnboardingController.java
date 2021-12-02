@@ -26,8 +26,8 @@ public class OnboardingController {
      * @param onboardingRequestDto La información para actualizar.
      * @return El Usuario actualizado y un mensaje de texto.
      */
-//    @PreAuthorize("hasAuthority('USER')")
-    @RequestMapping(value = "/photos/{username}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PreAuthorize("hasAuthority('USER')")
+    @RequestMapping(value = "/photos/{username}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> addPhotos(@PathVariable String username, OnboardingRequestDto onboardingRequestDto){
 
         return userService.addPhotos(username,onboardingRequestDto);
@@ -39,7 +39,7 @@ public class OnboardingController {
      * @return Usuario solicitado.
      */
     @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/{username}")
+    @GetMapping("/users/{username}")
     public ResponseEntity<?>  getUser(@PathVariable String username){
         return userService.getUserByUsername(username);
     }
