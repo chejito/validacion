@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"User6\",\n    \"surname\": \"User\",\n    \"username\": \"87654321F\",\n    \"email\": \"user6@user.com\",\n    \"password\": \"user6\"\n}",
+							"raw": "{\n    \"name\": \"User7\",\n    \"surname\": \"User\",\n    \"username\": \"87654321P\",\n    \"email\": \"user7@user.com\",\n    \"password\": \"user7\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,7 +71,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"87654321F\",\n    \"password\": \"user6\"\n}",
+							"raw": "{\n    \"username\": \"87654321P\",\n    \"password\": \"user7\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,6 +87,110 @@
 								"api",
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Onboarding",
+			"item": [
+				{
+					"name": "/api/onboarding/photos/{username}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4NzY1NDMyMVAiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2Mzg0MzQ5NzEsImV4cCI6MTYzODQ3MDk3MX0.sUeD8SAQup_kM05Y1282vwoRJeVsQM-0yJLhhAaWGgwkFnzzVCnQjb9SXjEExwtRaGsh5LEVIt-vU9suXWJdAg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "432-11-11-234",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "photo1",
+									"type": "file",
+									"src": "/home/sergio/Imágenes/bug-curso-html-css.png"
+								},
+								{
+									"key": "photo2",
+									"type": "file",
+									"src": "/home/sergio/Imágenes/bug-curso-js.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/onboarding/photos/87654321P",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"onboarding",
+								"photos",
+								"87654321P"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/onboarding/users/{username}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4NzY1NDMyMVAiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2Mzg0MzQ5NzEsImV4cCI6MTYzODQ3MDk3MX0.sUeD8SAQup_kM05Y1282vwoRJeVsQM-0yJLhhAaWGgwkFnzzVCnQjb9SXjEExwtRaGsh5LEVIt-vU9suXWJdAg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/api/onboarding/users/87654321P",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"onboarding",
+								"users",
+								"87654321P"
 							]
 						}
 					},
@@ -190,99 +294,6 @@
 								"api",
 								"panel",
 								"validate",
-								"87654321F"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Onboarding",
-			"item": [
-				{
-					"name": "/api/onboarding/dni",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4NzY1NDMyMUYiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2MzgxOTA2NzIsImV4cCI6MTYzODI3NzA3Mn0.rDU-3xGdZR5noN7gDpdW-7oJZtSxq3rK1bozvcfB-40G5rshCVvyuR1RmV1QVj_76HslYA9w7BG2DNsRRN5JHQ",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "phone",
-									"value": "432-11-11-234",
-									"type": "text"
-								},
-								{
-									"key": "id",
-									"value": "8",
-									"type": "text"
-								},
-								{
-									"key": "photo1",
-									"type": "file",
-									"src": "/home/sergio/Imágenes/bug-curso-html-css.png"
-								},
-								{
-									"key": "photo2",
-									"type": "file",
-									"src": "/home/sergio/Imágenes/bug-curso-js.png"
-								}
-							],
-							"options": {
-								"raw": {
-									"language": "text"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/onboarding/dni",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"onboarding",
-								"dni"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/api/onboarding/{username}",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3OEkiLCJyb2xlcyI6IkFETUlOLFVTRVIiLCJpYXQiOjE2MzgxOTA3NDksImV4cCI6MTYzODI3NzE0OX0.OMjZ1Ly9yKJsL3PS9-ginH7ovHw2hw43rSH2KYYhoypngSrWH_cKsZO_jFjwdQEaEoWfzUaDRRAE_TM8NoPSnQ",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/onboarding/87654321F",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"onboarding",
 								"87654321F"
 							]
 						}
