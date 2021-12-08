@@ -4,6 +4,7 @@ import ob.proyecto.validacion.dto.*;
 import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
+import ob.proyecto.validacion.repositories.HashCodeRepository;
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
 import ob.proyecto.validacion.security.payload.MessageResponse;
@@ -31,15 +32,21 @@ public class UserServiceImpl implements UserService{
     private final RoleRepository roleRepository;
 
     @Autowired
+    private final HashCodeRepository hashCodeRepository;
+
+
+
+    @Autowired
     private final UploadImageCloudinaryServiceImpl uploadService;
 
     @Autowired
     private final HashCodeUtils utils;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                           UploadImageCloudinaryServiceImpl uploadService, HashCodeUtils utils) {
+                           HashCodeRepository hashCodeRepository, UploadImageCloudinaryServiceImpl uploadService, HashCodeUtils utils) {
         this.userRepository =  userRepository;
         this.roleRepository = roleRepository;
+        this.hashCodeRepository = hashCodeRepository;
         this.uploadService = uploadService;
         this.utils = utils;
     }
@@ -83,6 +90,8 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
         HashCode hashCode = utils.generateHashCode(user);
+        hashCodeRepository.save(hashCode);
+
         Integer hash = hashCode.getHash();
         String message = "Usuario '" + user.getUsername() + "' registrado correctamente";
 
