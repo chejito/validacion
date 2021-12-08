@@ -1,4 +1,4 @@
-package ob.proyecto.validacion.services;
+package ob.proyecto.validacion.services.users;
 
 import ob.proyecto.validacion.dto.*;
 import ob.proyecto.validacion.entities.Role;
@@ -6,6 +6,7 @@ import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
 import ob.proyecto.validacion.security.payload.MessageResponse;
+import ob.proyecto.validacion.services.uploadimages.UploadImageCloudinaryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -8,10 +8,6 @@ import org.springframework.stereotype.Repository;
  * Respositorio de la entidad HashCode
  */
 @Repository
-public interface HashRepository extends JpaRepository<HashCode, Long> {
-
-    HashCode createHashCode(Integer hash);
-    HashCode getHashCode(Integer hash);
-    HashCode getHashCodeByUsername(String username);
+public interface HashCodeRepository extends JpaRepository<HashCode, Long> {
 
 }

@@ -1,4 +1,4 @@
-package ob.proyecto.validacion.services;
+package ob.proyecto.validacion.services.uploadimages;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

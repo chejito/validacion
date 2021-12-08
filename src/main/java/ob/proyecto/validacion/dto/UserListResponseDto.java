@@ -3,6 +3,7 @@ package ob.proyecto.validacion.dto;
 import ob.proyecto.validacion.entities.User;
 
 import java.util.List;
+
 /**
  * Clase DTO para listar usuarios de la base de datos.
  */
@@ -11,8 +12,7 @@ public class UserListResponseDto {
     private String message;
     private List<User> users;
 
-    public UserListResponseDto() {
-    }
+    public UserListResponseDto() {}
 
     public UserListResponseDto(String message, List<User> users) {
         this.message = message;
