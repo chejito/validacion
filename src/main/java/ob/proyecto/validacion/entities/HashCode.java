@@ -20,7 +20,64 @@ public class HashCode {
     @Column
     private Timestamp timeStamp;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hashcode_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @MapsId
     private User user;
+
+    public HashCode() {}
+
+    public HashCode(Integer hash, Timestamp timeStamp, User user) {
+        this.hash = hash;
+        this.timeStamp = timeStamp;
+        this.user = user;
+    }
+
+    public HashCode(Long id, Integer hash, Timestamp timeStamp, User user) {
+        this.id = id;
+        this.hash = hash;
+        this.timeStamp = timeStamp;
+        this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
+    }
+
+    public Timestamp getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Timestamp timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "HashCode{" +
+                "id=" + id +
+                ", hash=" + hash +
+                ", timeStamp=" + timeStamp +
+                ", user=" + user +
+                '}';
+    }
 }

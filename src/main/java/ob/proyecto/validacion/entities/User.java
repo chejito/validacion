@@ -44,8 +44,8 @@ public class User {
 
     private Set<Role> roles;
 
-    @OneToOne
-    private HashCode hash;
+//    @OneToOne
+//    private HashCode hash;
 
     public User() {}
 
