@@ -7,13 +7,13 @@ package ob.proyecto.validacion.dto;
 public class HashCodeResponseDto {
 
     private String message;
-    private Integer hash;
+    private Integer hashCode;
 
     public HashCodeResponseDto() {}
 
-    public HashCodeResponseDto(String message, Integer hash) {
+    public HashCodeResponseDto(String message, Integer hashcode) {
         this.message = message;
-        this.hash = hash;
+        this.hashCode = hashcode;
     }
 
     public String getMessage() {
@@ -24,11 +24,11 @@ public class HashCodeResponseDto {
         this.message = message;
     }
 
-    public Integer getHash() {
-        return hash;
+    public Integer getHashCode() {
+        return hashCode;
     }
 
-    public void setHash(Integer hash) {
-        this.hash = hash;
+    public void setHashCode(Integer hashCode) {
+        this.hashCode = hashCode;
     }
 }

@@ -1,5 +1,6 @@
 package ob.proyecto.validacion.controller;
 
+import ob.proyecto.validacion.dto.HashCodeDto;
 import ob.proyecto.validacion.services.hashcodes.HashCodeServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,11 @@ public class HashCodeController {
         return hashCodeService.update(username);
     }
 
-    @GetMapping("/validate/{hashcode}")
-    public ResponseEntity<?> validate(@PathVariable Integer hashcode){
-        return hashCodeService.validate(hashcode);
+    @PostMapping("/validate/{hashcode}")
+    public ResponseEntity<?> validate(@PathVariable String hashcode) {
+        Integer hashcodeInt = Integer.parseInt(hashcode);
+
+        return hashCodeService.validate(hashcodeInt);
     }
 }
 

@@ -19,7 +19,11 @@ public class HashCodeUtils {
     }
 
     public Integer getHash(String username, String password, Timestamp timeStamp) {
-        return (username.hashCode() * password.hashCode() * timeStamp.hashCode());
+        Integer hashcode = (username.hashCode() * password.hashCode() * timeStamp.hashCode());
+        if (hashcode < 0) {
+            hashcode *= -1;
+        }
+        return hashcode;
     }
 
     public Boolean validateHashCode(HashCode hashCode) {

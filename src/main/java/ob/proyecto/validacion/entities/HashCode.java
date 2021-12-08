@@ -20,7 +20,7 @@ public class HashCode {
     @Column
     private Timestamp timeStamp;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @MapsId
     private User user;
 

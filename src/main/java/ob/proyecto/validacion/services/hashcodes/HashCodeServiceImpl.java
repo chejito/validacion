@@ -49,15 +49,18 @@ public class HashCodeServiceImpl implements HashCodeService {
             Optional<User> oUser = userRepository.findByUsername(username);
             if (oUser.isPresent()) {
                 User user = oUser.get();
-                HashCode hashCode = utils.generateHashCode(user);
-                hashCodeRepository.save(hashCode);
-                Integer hash = hashCode.getHash();
-                String message = "Nuevo hashCode del usuario " + username + ": " + hash;
+                HashCode newHashCode = utils.generateHashCode(user);
+                HashCode oldHashCode = hashCodeRepository.findByUser(user);
+                Integer hashCode = newHashCode.getHash();
+                oldHashCode.setHash(hashCode);
+                hashCodeRepository.save(oldHashCode);
+
+                String message = "Nuevo HashCode del usuario '" + username + "': " + hashCode;
                 log.warn(message);
 
-                return ResponseEntity.ok(new HashCodeResponseDto(message, hash));
+                return ResponseEntity.ok(new HashCodeResponseDto(message, hashCode));
             } else {
-                throw new UsernameNotFoundException(username);
+                throw new UsernameNotFoundException("Usuario no encontrado: " + username);
             }
         } catch (Exception e) {
             String message = e.getMessage();
@@ -74,6 +77,7 @@ public class HashCodeServiceImpl implements HashCodeService {
         ArrayList<HashCode> hashCodes = (ArrayList<HashCode>) hashCodeRepository.findAll();
         try {
             for (HashCode hashCode : hashCodes) {
+                log.warn(hashCode.toString());
                 if (Objects.equals(hashCode.getHash(), hash)) {
                     User user = hashCode.getUser();
                     if (utils.validateHashCode(hashCode)) {
