@@ -1,19 +1,19 @@
 package ob.proyecto.validacion.dto;
 
 public class HashCodeDto {
-    Integer hashCode;
+    Integer hashcode;
 
     public HashCodeDto() {}
 
-    public HashCodeDto(Integer hashCode) {
-        this.hashCode = hashCode;
+    public HashCodeDto(Integer hashcode) {
+        this.hashcode = hashcode;
     }
 
-    public int getHashCode() {
-        return hashCode;
+    public int getHashcode() {
+        return hashcode;
     }
 
-    public void setHashCode(Integer hashCode) {
-        this.hashCode = hashCode;
+    public void setHashcode(Integer hashcode) {
+        this.hashcode = hashcode;
     }
 }
