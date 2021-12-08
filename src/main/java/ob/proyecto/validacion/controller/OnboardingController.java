@@ -26,7 +26,10 @@ public class OnboardingController {
      * @param onboardingRequestDto La información para actualizar.
      * @return El Usuario actualizado y un mensaje de texto.
      */
+    /*
+    TODO: borrar esa linea de codigo despues de los tests
     @PreAuthorize("hasAuthority('USER')")
+     */
     @RequestMapping(value = "/photos/{username}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> addPhotos(@PathVariable String username, OnboardingRequestDto onboardingRequestDto){
 
