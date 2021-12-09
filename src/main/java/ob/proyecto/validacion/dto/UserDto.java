@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class UserDto {
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private String fullname;
     private String email;

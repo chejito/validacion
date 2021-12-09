@@ -1,10 +1,9 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
-import ob.proyecto.validacion.services.UserServiceImpl;
+import ob.proyecto.validacion.services.user.UserServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,7 +25,10 @@ public class OnboardingController {
      * @param onboardingRequestDto La información para actualizar.
      * @return El Usuario actualizado y un mensaje de texto.
      */
+    /*
+    TODO: descomentar la linea de codigo despues de las pruebas
     @PreAuthorize("hasAuthority('USER')")
+     */
     @RequestMapping(value = "/photos/{username}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> addPhotos(@PathVariable String username, OnboardingRequestDto onboardingRequestDto){
 
@@ -38,7 +40,10 @@ public class OnboardingController {
      * @param username Nombre de usuario del usuario a listar.
      * @return Usuario solicitado.
      */
+    /*
+    TODO: descomentar la linea de codigo despues de las pruebas
     @PreAuthorize("hasAuthority('USER')")
+     */
     @GetMapping("/users/{username}")
     public ResponseEntity<?>  getUser(@PathVariable String username){
         return userService.getUserByUsername(username);

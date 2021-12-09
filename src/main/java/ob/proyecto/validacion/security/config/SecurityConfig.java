@@ -95,6 +95,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .antMatchers("/api/hello/**", "/**", "/hola/**", "/hello/**").permitAll()
+                .antMatchers("/api/onboarding/**").permitAll()
+                .antMatchers("/api/hashcode/**").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated();
 

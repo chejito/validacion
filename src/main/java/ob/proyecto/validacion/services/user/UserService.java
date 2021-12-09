@@ -1,4 +1,4 @@
-package ob.proyecto.validacion.services;
+package ob.proyecto.validacion.services.user;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
 import ob.proyecto.validacion.dto.UserDto;

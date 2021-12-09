@@ -7,7 +7,7 @@ import ob.proyecto.validacion.security.payload.JwtResponse;
 import ob.proyecto.validacion.security.payload.LoginRequest;
 import ob.proyecto.validacion.security.payload.MessageResponse;
 import ob.proyecto.validacion.security.payload.RegisterRequest;
-import ob.proyecto.validacion.services.UserServiceImpl;
+import ob.proyecto.validacion.services.user.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

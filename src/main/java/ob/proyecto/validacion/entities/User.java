@@ -44,6 +44,9 @@ public class User {
 
     private Set<Role> roles;
 
+//    @OneToOne
+//    private HashCode hash;
+
     public User() {}
 
     public User(String fullname, String email, String username, String password, Set<Role> roles) {
