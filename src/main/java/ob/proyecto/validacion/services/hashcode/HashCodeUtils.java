@@ -1,4 +1,4 @@
-package ob.proyecto.validacion.services.hashcodes;
+package ob.proyecto.validacion.services.hashcode;
 
 import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.User;

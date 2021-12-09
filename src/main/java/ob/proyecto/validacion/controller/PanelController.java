@@ -1,6 +1,6 @@
 package ob.proyecto.validacion.controller;
 
-import ob.proyecto.validacion.services.users.UserServiceImpl;
+import ob.proyecto.validacion.services.user.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

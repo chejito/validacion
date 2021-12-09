@@ -1,4 +1,4 @@
-package ob.proyecto.validacion.services.uploadimages;
+package ob.proyecto.validacion.services.uploadimage;
 
 import org.springframework.web.multipart.MultipartFile;
 

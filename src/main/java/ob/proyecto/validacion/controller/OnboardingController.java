@@ -1,7 +1,7 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
-import ob.proyecto.validacion.services.users.UserServiceImpl;
+import ob.proyecto.validacion.services.user.UserServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

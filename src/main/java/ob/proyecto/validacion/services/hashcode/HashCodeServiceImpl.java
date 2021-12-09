@@ -1,4 +1,4 @@
-package ob.proyecto.validacion.services.hashcodes;
+package ob.proyecto.validacion.services.hashcode;
 
 import ob.proyecto.validacion.dto.HashCodeResponseDto;
 import ob.proyecto.validacion.dto.UserResponseDto;
@@ -6,7 +6,6 @@ import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.User;
 import ob.proyecto.validacion.exceptions.HashCodeNotFoundException;
 import ob.proyecto.validacion.exceptions.SessionExpiredException;
-import ob.proyecto.validacion.exceptions.UserNotFoundException;
 import ob.proyecto.validacion.repositories.HashCodeRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
 import ob.proyecto.validacion.security.payload.MessageResponse;
@@ -17,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,7 +52,9 @@ public class HashCodeServiceImpl implements HashCodeService {
                 HashCode newHashCode = utils.generateHashCode(user);
                 HashCode oldHashCode = hashCodeRepository.findByUser(user);
                 Integer hashCode = newHashCode.getHash();
+                Timestamp newTmestamp = newHashCode.getTimeStamp();
                 oldHashCode.setHash(hashCode);
+                oldHashCode.setTimeStamp(newTmestamp);
                 hashCodeRepository.save(oldHashCode);
 
                 String message = "Nuevo HashCode del usuario '" + username + "': " + hashCode;

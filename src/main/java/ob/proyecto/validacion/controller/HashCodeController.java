@@ -1,7 +1,6 @@
 package ob.proyecto.validacion.controller;
 
-import ob.proyecto.validacion.dto.HashCodeDto;
-import ob.proyecto.validacion.services.hashcodes.HashCodeServiceImpl;
+import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
