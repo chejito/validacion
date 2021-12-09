@@ -52,9 +52,9 @@ public class HashCodeServiceImpl implements HashCodeService {
                 HashCode newHashCode = utils.generateHashCode(user);
                 HashCode oldHashCode = hashCodeRepository.findByUser(user);
                 Integer hashCode = newHashCode.getHash();
-                Timestamp newTmestamp = newHashCode.getTimeStamp();
+                Timestamp newTimestamp = newHashCode.getTimeStamp();
                 oldHashCode.setHash(hashCode);
-                oldHashCode.setTimeStamp(newTmestamp);
+                oldHashCode.setTimeStamp(newTimestamp);
                 hashCodeRepository.save(oldHashCode);
 
                 String message = "Nuevo HashCode del usuario '" + username + "': " + hashCode;
