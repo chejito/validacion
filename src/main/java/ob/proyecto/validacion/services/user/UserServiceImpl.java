@@ -144,17 +144,7 @@ public class UserServiceImpl implements UserService{
                     .badRequest()
                     .body(new MessageResponse(message));
         }
-
-
     }
-
-
-
-
-
-
-
-
 
     /**
      * Método que permite validar a un usuario.
@@ -197,6 +187,43 @@ public class UserServiceImpl implements UserService{
                     .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username + " no existe!"));
 
         return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
+    }
+
+    /**
+     * Método que devuelve un usuario si existe en la base de datos.
+     * Utiliza un Hashcode.
+     * @param hash Hashcode del usuario.
+     * @return mensaje y usuario.
+     */
+    @Override
+    public ResponseEntity<?> getUserByHashcode(Integer hash) {
+        ArrayList<HashCode> hashCodes = (ArrayList<HashCode>) hashCodeRepository.findAll();
+        try {
+            for (HashCode hashCode : hashCodes) {
+                if (Objects.equals(hashCode.getHash(), hash)) {
+                    User user = hashCode.getUser();
+                    if (utils.validateHashCode(hashCode)) {
+
+                        String message = "Datos del usuario: " + user.getUsername();
+                        log.warn(message);
+
+                        return ResponseEntity
+                                .ok(new UserResponseDto(message, user));
+                    } else {
+                        throw new SessionExpiredException(user.getUsername());
+                    }
+                }
+            }
+
+            throw new HashCodeNotFoundException(hash.toString());
+        } catch (Exception e) {
+            String message = e.getMessage();
+            log.error(message);
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse(message));
+        }
     }
 
     /**

@@ -36,11 +36,13 @@ public class OnboardingController {
 
     /**
      * Método que lista un usuario de la base de datos.
-     * @param username Nombre de usuario del usuario a listar.
+     * @param hashcode Hashcode del usuario a listar.
      * @return Usuario solicitado.
      */
-    @GetMapping("/users/{username}")
-    public ResponseEntity<?>  getUser(@PathVariable String username){
-        return userService.getUserByUsername(username);
+    @GetMapping("/users/{hashcode}")
+    public ResponseEntity<?>  getUser(@PathVariable String hashcode){
+        Integer hashcodeInt = Integer.parseInt(hashcode);
+
+        return userService.getUserByHashcode(hashcodeInt);
     }
 }
