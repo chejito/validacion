@@ -27,7 +27,8 @@ public class OnboardingController {
      * @param onboardingRequestDto La información para actualizar.
      * @return El Usuario actualizado y un mensaje de texto.
      */
-    @RequestMapping(value = "/photos/{hashcode}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+//    @RequestMapping(value = "/photos/{hashcode}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping("/photos/{hashcode}")
     public ResponseEntity<?> addPhotos(@PathVariable String hashcode, OnboardingRequestDto onboardingRequestDto){
         Integer hashcodeInt = Integer.parseInt(hashcode);
 
