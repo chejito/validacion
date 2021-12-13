@@ -1,6 +1,7 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
+import ob.proyecto.validacion.dto.OnePhotoRequestDto;
 import ob.proyecto.validacion.services.hashcode.HashCodeService;
 import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
 import ob.proyecto.validacion.services.user.UserServiceImpl;
@@ -33,6 +34,13 @@ public class OnboardingController {
         Integer hashcodeInt = Integer.parseInt(hashcode);
 
         return userService.addPhotos(hashcodeInt,onboardingRequestDto);
+    }
+
+    @PostMapping("/uploadphoto/{hashcode}")
+    public ResponseEntity<?> addOnePhoto(@PathVariable String hashcode, OnePhotoRequestDto onePhotoRequestDto){
+        Integer hashcodeInt = Integer.parseInt(hashcode);
+
+        return userService.addOnePhoto(hashcodeInt,onePhotoRequestDto);
     }
 
     /**
