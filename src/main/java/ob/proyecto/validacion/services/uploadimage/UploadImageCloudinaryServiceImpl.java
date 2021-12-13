@@ -2,9 +2,15 @@ package ob.proyecto.validacion.services.uploadimage;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import ob.proyecto.validacion.exceptions.EmptyImageException;
+import ob.proyecto.validacion.exceptions.InvalidImageFormatException;
+import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -23,6 +29,9 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageService {
             "api_secret", apiSecret
     );
 
+    Logger log = LoggerFactory.getLogger(HashCodeServiceImpl.class);
+
+
     Cloudinary cloudinary = new Cloudinary(params);
 
     /**
@@ -32,16 +41,19 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageService {
      * @return String con la url de la imagen alojada
      */
     @Override
-    public String uploadImage(MultipartFile photo) {
-        try {
-            Map response = cloudinary.uploader().upload((photo.getBytes()),
-                    ObjectUtils.emptyMap());
+    public String uploadImage(MultipartFile photo) throws EmptyImageException, InvalidImageFormatException, IOException {
+        if (photo.isEmpty()) {
+            String message = "Error: El archivo está vacío";
+            log.error(message);
+            throw new EmptyImageException(message);
+        } else if (!photo.getName().endsWith(".png") && !photo.getName().endsWith(".jpg")) {
+            String message = "Error: El formato del archivo es incorrecto. Formatos admitidos '.png' y '.jpg'";
+            log.error(message);
+            throw new InvalidImageFormatException(message);
+        }
+        Map response = cloudinary.uploader().upload((photo.getBytes()),
+                ObjectUtils.emptyMap());
 
-            return response.get("secure_url").toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        return response.get("secure_url").toString();
     }
-}
-
-
 }

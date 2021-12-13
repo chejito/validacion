@@ -9,5 +9,5 @@ import java.io.IOException;
  * a un servicio de alojamiento en la nube
  */
 public interface UploadImageService {
-    String uploadImage(MultipartFile photo) throws IOException;
+    String uploadImage(MultipartFile photo) throws Exception;
 }
