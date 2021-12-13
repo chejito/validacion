@@ -12,12 +12,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collection;
 
 /**
  * Controlador para llevar a cabo la autenticación utilizando JWT
@@ -56,9 +60,16 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenUtil.generateJwtToken(authentication);
 
-        // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+        String roleToSend = "USER";
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        for (GrantedAuthority role : roles) {
+            if (role.toString().equals("ADMIN")) {
+                roleToSend = role.toString();
+            }
+        }
+
+        return ResponseEntity.ok(new JwtResponse(jwt, roleToSend));
     }
 
     @PostMapping("/register")
