@@ -60,8 +60,10 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenUtil.generateJwtToken(authentication);
 
+
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
         String roleToSend = "USER";
+        String username = loginRequest.getUsername();
 
         for (GrantedAuthority role : roles) {
             if (role.toString().equals("ADMIN")) {
@@ -69,7 +71,7 @@ public class AuthController {
             }
         }
 
-        return ResponseEntity.ok(new JwtResponse(jwt, roleToSend));
+        return ResponseEntity.ok(new JwtResponse(jwt, roleToSend, username));
     }
 
     @PostMapping("/register")

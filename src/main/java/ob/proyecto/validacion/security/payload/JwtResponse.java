@@ -8,6 +8,8 @@ public class JwtResponse {
 
     private String role;
 
+    private String username;
+
     public JwtResponse() { }
 
     public JwtResponse(String token) {
@@ -18,6 +20,13 @@ public class JwtResponse {
     public JwtResponse(String token, String role) {
         this.token = token;
         this.role = role;
+        this.username = null;
+    }
+
+    public JwtResponse(String token, String role, String username) {
+        this.token = token;
+        this.role = role;
+        this.username = username;
     }
 
     public String getToken() {
@@ -34,5 +43,13 @@ public class JwtResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
