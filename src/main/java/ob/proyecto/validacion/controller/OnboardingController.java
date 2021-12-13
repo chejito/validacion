@@ -1,6 +1,8 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
+import ob.proyecto.validacion.services.hashcode.HashCodeService;
+import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
 import ob.proyecto.validacion.services.user.UserServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,28 +23,21 @@ public class OnboardingController {
     }
 
     /**
-     * Método que actualiza un usuario en con el número de teléfono y el enlace a la url de las dos imágenes
+     * Método que actualiza un usuario en con los enlaces a las urls de las dos imágenes
      * @param onboardingRequestDto La información para actualizar.
      * @return El Usuario actualizado y un mensaje de texto.
      */
-    /*
-    TODO: descomentar la linea de codigo despues de las pruebas
-    @PreAuthorize("hasAuthority('USER')")
-     */
-    @RequestMapping(value = "/photos/{username}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> addPhotos(@PathVariable String username, OnboardingRequestDto onboardingRequestDto){
+    @RequestMapping(value = "/photos/{hashcode}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> addPhotos(@PathVariable String hashcode, OnboardingRequestDto onboardingRequestDto){
+        Integer hashcodeInt = Integer.parseInt(hashcode);
 
-        return userService.addPhotos(username,onboardingRequestDto);
+        return userService.addPhotos(hashcodeInt,onboardingRequestDto);
     }
 
     /**
      * Método que lista un usuario de la base de datos.
      * @param username Nombre de usuario del usuario a listar.
      * @return Usuario solicitado.
-     */
-    /*
-    TODO: descomentar la linea de codigo despues de las pruebas
-    @PreAuthorize("hasAuthority('USER')")
      */
     @GetMapping("/users/{username}")
     public ResponseEntity<?>  getUser(@PathVariable String username){

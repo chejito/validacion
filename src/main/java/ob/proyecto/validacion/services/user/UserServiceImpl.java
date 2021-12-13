@@ -4,20 +4,22 @@ import ob.proyecto.validacion.dto.*;
 import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
+import ob.proyecto.validacion.exceptions.HashCodeNotFoundException;
+import ob.proyecto.validacion.exceptions.SessionExpiredException;
 import ob.proyecto.validacion.repositories.HashCodeRepository;
 import ob.proyecto.validacion.repositories.RoleRepository;
 import ob.proyecto.validacion.repositories.UserRepository;
 import ob.proyecto.validacion.security.payload.MessageResponse;
+import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
 import ob.proyecto.validacion.services.hashcode.HashCodeUtils;
 import ob.proyecto.validacion.services.uploadimage.UploadImageCloudinaryServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementación de la interfaz UserService.
@@ -34,13 +36,13 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private final HashCodeRepository hashCodeRepository;
 
-
-
     @Autowired
     private final UploadImageCloudinaryServiceImpl uploadService;
 
     @Autowired
     private final HashCodeUtils utils;
+
+    Logger log = LoggerFactory.getLogger(HashCodeServiceImpl.class);
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
                            HashCodeRepository hashCodeRepository, UploadImageCloudinaryServiceImpl uploadService, HashCodeUtils utils) {
@@ -99,35 +101,60 @@ public class UserServiceImpl implements UserService{
     }
 
     /**
-     * Método que modifica el usuario, añadiéndole el número de teléfono
-     * y dos direcciones url de dos fotografías alojadas en la nube.
+     * Método que modifica el usuario, añadiéndole dos direcciones url de dos fotografías alojadas en la nube.
      *
      * @param onboardingRequestDto Los dos archivos de imágen.
      * @return Usuario modificado.
      */
     @Override
-    public ResponseEntity<?> addPhotos(String username, OnboardingRequestDto onboardingRequestDto) {
+    public ResponseEntity<?> addPhotos(Integer hash, OnboardingRequestDto onboardingRequestDto) {
+        ArrayList<HashCode> hashCodes = (ArrayList<HashCode>) hashCodeRepository.findAll();
+        try {
+            for (HashCode hashCode : hashCodes) {
+                if (Objects.equals(hashCode.getHash(), hash)) {
+                    User user = hashCode.getUser();
+                    if (utils.validateHashCode(hashCode)) {
+                        try {
+                            user.setUrlDni1(uploadService.uploadImage(onboardingRequestDto.getPhoto1()));
+                            user.setUrlDni2(uploadService.uploadImage(onboardingRequestDto.getPhoto2()));
+                            userRepository.save(user);
 
-        Optional<User> user = userRepository.findByUsername(username);
+                        } catch (Exception e){
+                            return ResponseEntity.badRequest().build();
+                        }
+                        String photo1Url = user.getUrlDni1();
+                        String photo2Url = user.getUrlDni2();
+                        String message = "Fotos añadidas para el usuario: " + user.getUsername();
+                        log.warn(message);
 
-        if (user.isEmpty())
+                        return ResponseEntity
+                                .ok(new OnboardingResponseDto(message, photo1Url, photo2Url));
+                    } else {
+                        throw new SessionExpiredException(user.getUsername());
+                    }
+                }
+            }
+
+            throw new HashCodeNotFoundException(hash.toString());
+        } catch (Exception e) {
+            String message = e.getMessage();
+            log.error(message);
+
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username +  " no existe!"));
-
-
-        try {
-            user.get().setUrlDni1(uploadService.uploadImage(onboardingRequestDto.getPhoto1()));
-            user.get().setUrlDni2(uploadService.uploadImage(onboardingRequestDto.getPhoto2()));
-            userRepository.save(user.get());
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().build();
+                    .body(new MessageResponse(message));
         }
 
-        return ResponseEntity
-                .ok(new UserResponseDto("Teléfono y fotos añadidas.", user.get()));
+
     }
+
+
+
+
+
+
+
+
 
     /**
      * Método que permite validar a un usuario.
