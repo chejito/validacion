@@ -14,7 +14,7 @@ public class OnboardingRequestDto {
     public OnboardingRequestDto() {
     }
 
-    public OnboardingRequestDto(Long id, String phone, MultipartFile photo1, MultipartFile photo2) {
+    public OnboardingRequestDto(MultipartFile photo1, MultipartFile photo2) {
         this.photo1 = photo1;
         this.photo2 = photo2;
     }

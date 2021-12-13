@@ -4,6 +4,7 @@ import ob.proyecto.validacion.dto.*;
 import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
+import ob.proyecto.validacion.exceptions.BothFilesAlreadyExistException;
 import ob.proyecto.validacion.exceptions.HashCodeNotFoundException;
 import ob.proyecto.validacion.exceptions.SessionExpiredException;
 import ob.proyecto.validacion.repositories.HashCodeRepository;
@@ -127,6 +128,57 @@ public class UserServiceImpl implements UserService{
                         String photo1Url = user.getUrlDni1();
                         String photo2Url = user.getUrlDni2();
                         String message = "Fotos añadidas para el usuario: " + user.getUsername();
+                        log.warn(message);
+
+                        return ResponseEntity
+                                .ok(new OnboardingResponseDto(message, photo1Url, photo2Url));
+                    } else {
+                        throw new SessionExpiredException(user.getUsername());
+                    }
+                }
+            }
+
+            throw new HashCodeNotFoundException(hash.toString());
+        } catch (Exception e) {
+            String message = e.getMessage();
+            log.error(message);
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse(message));
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> addOnePhoto(Integer hash, OnePhotoRequestDto onePhotoRequestDto) {
+        ArrayList<HashCode> hashCodes = (ArrayList<HashCode>) hashCodeRepository.findAll();
+        try {
+            for (HashCode hashCode : hashCodes) {
+                if (Objects.equals(hashCode.getHash(), hash)) {
+                    User user = hashCode.getUser();
+                    if (utils.validateHashCode(hashCode)) {
+                        try {
+                            if (user.getUrlDni1() == null){
+                                user.setUrlDni1(uploadService.uploadImage(onePhotoRequestDto.getPhoto()));
+                            } else if (user.getUrlDni2() == null){
+                                user.setUrlDni2(uploadService.uploadImage(onePhotoRequestDto.getPhoto()));
+                            } else {
+                                String message = "Error: Ambos archivos de imágen ya existen, no se pueden guardar más";
+                                log.error(message);
+
+                                throw new BothFilesAlreadyExistException(message);
+                            }
+
+                            userRepository.save(user);
+
+                        } catch (Exception e){
+                            return ResponseEntity
+                                    .badRequest()
+                                    .body(new MessageResponse(e.getMessage()));
+                        }
+                        String photo1Url = user.getUrlDni1();
+                        String photo2Url = user.getUrlDni2();
+                        String message = "Archivo añadido para el usuario: " + user.getUsername();
                         log.warn(message);
 
                         return ResponseEntity

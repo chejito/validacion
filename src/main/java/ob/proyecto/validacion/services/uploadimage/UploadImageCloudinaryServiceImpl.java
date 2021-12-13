@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Clase que implementa la subida de una imagen al
@@ -31,7 +32,6 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageService {
 
     Logger log = LoggerFactory.getLogger(HashCodeServiceImpl.class);
 
-
     Cloudinary cloudinary = new Cloudinary(params);
 
     /**
@@ -42,13 +42,17 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageService {
      */
     @Override
     public String uploadImage(MultipartFile photo) throws EmptyImageException, InvalidImageFormatException, IOException {
+        log.warn(photo.getContentType());
+
         if (photo.isEmpty()) {
             String message = "Error: El archivo está vacío";
             log.error(message);
+          
             throw new EmptyImageException(message);
-        } else if (!photo.getName().endsWith(".png") && !photo.getName().endsWith(".jpg")) {
-            String message = "Error: El formato del archivo es incorrecto. Formatos admitidos '.png' y '.jpg'";
+        } else if (!Objects.requireNonNull(photo.getContentType()).equalsIgnoreCase("image/png") && !photo.getContentType().equalsIgnoreCase("image/jpeg")) {
+            String message = "Error: El formato del archivo es incorrecto. Formatos admitidos '.png' y '.jpeg'";
             log.error(message);
+          
             throw new InvalidImageFormatException(message);
         }
         Map response = cloudinary.uploader().upload((photo.getBytes()),
