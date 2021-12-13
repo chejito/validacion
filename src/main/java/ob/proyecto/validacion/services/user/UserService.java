@@ -13,5 +13,6 @@ public interface UserService {
     ResponseEntity<?> addPhotos(Integer hashcode, OnboardingRequestDto onboardingRequestDto);
     ResponseEntity<?> validate(String username);
     ResponseEntity<?> getUserByUsername(String username);
+    ResponseEntity<?> getUserByHashcode(Integer hashcode);
     ResponseEntity<?> getAllUsers();
 }
