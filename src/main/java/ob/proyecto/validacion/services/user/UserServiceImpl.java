@@ -120,7 +120,9 @@ public class UserServiceImpl implements UserService{
                             userRepository.save(user);
 
                         } catch (Exception e){
-                            return ResponseEntity.badRequest().build();
+                            return ResponseEntity
+                                    .badRequest()
+                                    .body(new MessageResponse(e.getMessage()));
                         }
                         String photo1Url = user.getUrlDni1();
                         String photo2Url = user.getUrlDni2();
