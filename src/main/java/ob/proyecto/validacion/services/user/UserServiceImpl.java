@@ -4,7 +4,6 @@ import ob.proyecto.validacion.dto.*;
 import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.Role;
 import ob.proyecto.validacion.entities.User;
-import ob.proyecto.validacion.exceptions.BothFilesAlreadyExistException;
 import ob.proyecto.validacion.exceptions.HashCodeNotFoundException;
 import ob.proyecto.validacion.exceptions.SessionExpiredException;
 import ob.proyecto.validacion.repositories.HashCodeRepository;

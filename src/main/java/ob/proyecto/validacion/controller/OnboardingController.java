@@ -1,7 +1,6 @@
 package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
-import ob.proyecto.validacion.dto.OnePhotoRequestDto;
 import ob.proyecto.validacion.services.hashcode.HashCodeService;
 import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
 import ob.proyecto.validacion.services.user.UserServiceImpl;
