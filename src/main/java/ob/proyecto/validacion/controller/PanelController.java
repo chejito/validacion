@@ -34,11 +34,12 @@ public class PanelController {
      * @param username Nombre de usuario del usuario a listar.
      * @return Usuario solicitado.
      */
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/users/{username}")
     public ResponseEntity<?>  getUser(@PathVariable String username){
         return userService.getUserByUsername(username);
     }
+
     /**
      * Método que lista todos los usuarios de la base de datos.
      * @return Lista de todos los usuarios.
