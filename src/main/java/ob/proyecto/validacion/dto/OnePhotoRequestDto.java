@@ -12,7 +12,7 @@ public class OnePhotoRequestDto {
 
     public OnePhotoRequestDto() {}
 
-    public OnePhotoRequestDto(Long id, MultipartFile photo) {
+    public OnePhotoRequestDto(MultipartFile photo) {
         this.photo = photo;
     }
 
