@@ -24,11 +24,12 @@ public class OnboardingController {
     }
 
     /**
-     * Método que actualiza un usuario en con los enlaces a las urls de las dos imágenes
-     * @param onboardingRequestDto La información para actualizar.
-     * @return El Usuario actualizado y un mensaje de texto.
+     * Método que añade dos ficheros de imágenes a un usuario y devuelve sus direcciones URL.
+     * @param hashcode El hashcode que identifica al usuario.
+     * @param onboardingRequestDto DTO que incluye los ficheros de imágenes.
+     * @return En caso positivo, las URLs resultado de la subida de los archivos y un mensaje.
+     * En caso negativo, un mensaje de error.
      */
-//    @RequestMapping(value = "/photos/{hashcode}", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
     @PutMapping("/photos/{hashcode}")
     public ResponseEntity<?> addPhotos(@PathVariable String hashcode, OnboardingRequestDto onboardingRequestDto){
         Integer hashcodeInt = Integer.parseInt(hashcode);
@@ -36,6 +37,14 @@ public class OnboardingController {
         return userService.addPhotos(hashcodeInt,onboardingRequestDto);
     }
 
+    /**
+     * Método que añade un fichero de imágen a un usuario y devuelve su dirección URL.
+     *
+     * @param hashcode El hashcode que identifica al usuario.
+     * @param onePhotoRequestDto DTO que incluye el fichero de imágen.
+     * @return En caso positivo, la URL resultado de la subida del archivo y un mensaje.
+     * En caso negativo, un mensaje de error.
+     */
     @PostMapping("/uploadphoto/{hashcode}")
     public ResponseEntity<?> addOnePhoto(@PathVariable String hashcode, OnePhotoRequestDto onePhotoRequestDto){
         Integer hashcodeInt = Integer.parseInt(hashcode);
@@ -44,8 +53,8 @@ public class OnboardingController {
     }
 
     /**
-     * Método que lista un usuario de la base de datos.
-     * @param hashcode Hashcode del usuario a listar.
+     * Método que devuelve un usuario de la base de datos.
+     * @param hashcode El hashcode que identifica al usuario.
      * @return Usuario solicitado.
      */
     @GetMapping("/users/{hashcode}")

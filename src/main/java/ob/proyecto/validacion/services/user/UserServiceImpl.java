@@ -149,6 +149,14 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * Método que modifica el usuario, añadiéndole dos direcciones url de dos fotografías alojadas en la nube.
+     *
+     * @param hash El hashcode que identifica al usuario
+     * @param onePhotoRequestDto DTO que incluye el fichero de imágen.
+     * @return En caso positivo, la URL resultado de la subida del archivo y un mensaje.
+     * En caso negativo, un mensaje de error.
+     */
     @Override
     public ResponseEntity<?> addOnePhoto(Integer hash, OnePhotoRequestDto onePhotoRequestDto) {
         ArrayList<HashCode> hashCodes = (ArrayList<HashCode>) hashCodeRepository.findAll();
