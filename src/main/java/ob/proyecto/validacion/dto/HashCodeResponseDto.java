@@ -2,7 +2,7 @@ package ob.proyecto.validacion.dto;
 
 /**
  * Clase DTO para devolver el hashcode de un usuario
- * desde la base de datos.
+ * desde la base de datos junto a un mensaje.
  */
 public class HashCodeResponseDto {
 

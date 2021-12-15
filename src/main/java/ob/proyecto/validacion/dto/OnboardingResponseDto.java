@@ -1,7 +1,5 @@
 package ob.proyecto.validacion.dto;
 
-import ob.proyecto.validacion.entities.User;
-
 /**
  * Clase DTO para el devolver dos direcciones url en la respuesta, junto con un mensaje de texto.
  */
