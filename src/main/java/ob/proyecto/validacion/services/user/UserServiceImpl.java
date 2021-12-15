@@ -28,16 +28,9 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
     private final RoleRepository roleRepository;
-
-    @Autowired
     private final HashCodeRepository hashCodeRepository;
-
-    @Autowired
     private final UploadImageCloudinaryServiceImpl uploadService;
 
     @Autowired
@@ -218,10 +211,14 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<?> validate(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (user.isEmpty())
+        if (user.isEmpty()) {
+            String message = "Error: ¡Usuario con nombre de usuario " + username + " no existe!";
+            log.error(message);
+
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username + " no existe!"));
+                    .body(new MessageResponse(message));
+        }
 
         User nUser = user.get();
 
@@ -230,12 +227,15 @@ public class UserServiceImpl implements UserService{
             userRepository.save(nUser);
         }
 
+        String message = "Usuario con nombre de usuario " + username + " validado.";
+
         return ResponseEntity
-                .ok( new UserResponseDto("Usuario con nombre de usuario " + username + " validado.", nUser));
+                .ok( new UserResponseDto(message, nUser));
     }
 
     /**
      * Método que devuelve un usuario si existe en la base de datos.
+     *
      * @param username Nombre de usuario del usuario a devolver.
      * @return Usuario solicitado.
      */
@@ -243,19 +243,23 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<?> getUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (user.isEmpty())
+        if (user.isEmpty()) {
+            String message = "Error: ¡Usuario con nombre de usuario " + username + " no existe!";
+            log.error(message);
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡Usuario con nombre de usuario " + username + " no existe!"));
+                    .body(new MessageResponse(message));
+        }
 
         return ResponseEntity.ok(new UserResponseDto("Datos del usuario", user.get()));
     }
 
     /**
      * Método que devuelve un usuario si existe en la base de datos.
-     * Utiliza un Hashcode.
-     * @param hash Hashcode del usuario.
-     * @return mensaje y usuario.
+     * Utiliza un código hash.
+     *
+     * @param hash Código hash del usuario.
+     * @return Mensaje y usuario en caso positivo. Mensaje de error en caso negativo.
      */
     @Override
     public ResponseEntity<?> getUserByHashcode(Integer hash) {
@@ -290,12 +294,15 @@ public class UserServiceImpl implements UserService{
 
     /**
      * Método que devuelve todos los usuarios en la base de datos.
-     * @return Lista de usuarios.
+     *
+     * @return Lista de usuarios y mensaje.
      */
     @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
+        String message = "Listado de usuarios";
+        log.warn(message);
 
-        return ResponseEntity.ok(new UserListResponseDto("Listado de usuarios", users));
+        return ResponseEntity.ok(new UserListResponseDto(message, users));
     }
 }

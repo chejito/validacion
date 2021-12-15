@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 
+/**
+ * Clase de utilidad de Códigos Hash.
+ */
 @Component
 public class HashCodeUtils {
 
@@ -20,6 +23,12 @@ public class HashCodeUtils {
         this.repository = repository;
     }
 
+    /**
+     * Método que genera un objeto de la clase HashCode a partir de un usuario.
+     *
+     * @param user Usuario
+     * @return Objeto de la clase HashCode
+     */
     public HashCode generateHashCode(User user) {
         String username = user.getUsername();
         String password = user.getPassword();
@@ -29,6 +38,14 @@ public class HashCodeUtils {
         return new HashCode(hash, timeStamp, user);
     }
 
+    /**
+     * Método que devuelve un código hash positivo a partir de los datos del usuario.
+     *
+     * @param username Nombre de usuario.
+     * @param password Contraseña del usuario.
+     * @param timeStamp Marca de tiempo de la operación.
+     * @return Código hash.
+     */
     public Integer getHash(String username, String password, Timestamp timeStamp) {
         int hashcode = (username.hashCode() * password.hashCode() * timeStamp.hashCode());
         if (hashcode < 0) {
@@ -37,6 +54,13 @@ public class HashCodeUtils {
         return hashcode;
     }
 
+    /**
+     * Método que valida si un código hash ha expirado, comparando la marca de tiempo
+     * del objeto HashCode con la marca de tiempo del sistema.
+     *
+     * @param hashCode Objeto de la clase HashCode.
+     * @return True si aún no ha expirado, false si ha expirado.
+     */
     public Boolean validateHashCode(HashCode hashCode) {
         Long now = new Timestamp(System.currentTimeMillis()).getTime();
         Long hashTime = hashCode.getTimeStamp().getTime();
@@ -44,6 +68,13 @@ public class HashCodeUtils {
         return (now - hashTime) <= expiration;
     }
 
+    /**
+     * Método que actualiza el objeto HashCode con la nueva marca de tiempo, reiniciando su duración máxima.
+     * También genera un nuevo código hash, que sobreescribe el antiguo.
+     *
+     * @param user Usuario.
+     * @return Código hash.
+     */
     public Integer updateHash(User user) {
         HashCode newHashCode = generateHashCode(user);
         HashCode oldHashCode = repository.findByUser(user);

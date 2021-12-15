@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
  */
 public interface HashCodeService {
 
-    //ResponseEntity<?> create(String username);
     ResponseEntity<?> update(String username);
     ResponseEntity<?> validate(Integer hash);
 
