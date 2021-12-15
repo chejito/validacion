@@ -20,8 +20,9 @@ public class PanelController {
 
     /**
      * Método que valida un usuario de la base de datos.
+     *
      * @param username Nombre de usuario del usuario a validar.
-     * @return Usuario actualizado.
+     * @return Respuesta del userService.
      */
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/validate/{username}")
@@ -31,8 +32,9 @@ public class PanelController {
 
     /**
      * Método que lista un usuario de la base de datos.
+     *
      * @param username Nombre de usuario del usuario a listar.
-     * @return Usuario solicitado.
+     * @return Respuesta del userService.
      */
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/users/{username}")
@@ -42,7 +44,8 @@ public class PanelController {
 
     /**
      * Método que lista todos los usuarios de la base de datos.
-     * @return Lista de todos los usuarios.
+     *
+     * @return Respuesta del userService.
      */
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/users")

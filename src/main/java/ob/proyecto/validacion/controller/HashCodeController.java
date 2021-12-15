@@ -17,11 +17,23 @@ public class HashCodeController {
         this.hashCodeService = hashCodeService;
     }
 
+    /**
+     * Método que actualiza el código hash de un usuario a partir de su nombre de usuario.
+     *
+     * @param username Nombre de usuario.
+     * @return Respuesta del hashCodeService.
+     */
     @PutMapping("/update/{username}")
     public ResponseEntity<?> updateHashCode(@PathVariable String username){
         return hashCodeService.update(username);
     }
 
+    /**
+     * Método que valida el código hash de un usuario.
+     *
+     * @param hashcode Código hash.
+     * @return Respuesta del hashCodeService.
+     */
     @PostMapping("/validate/{hashcode}")
     public ResponseEntity<?> validate(@PathVariable String hashcode) {
         Integer hashcodeInt = Integer.parseInt(hashcode);
