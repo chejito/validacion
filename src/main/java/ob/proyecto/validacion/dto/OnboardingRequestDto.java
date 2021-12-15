@@ -3,8 +3,8 @@ package ob.proyecto.validacion.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Clase DTO para modificar un usuario de la base de datos, añadiendo su número de teléfono
- * y dos direcciones url de dos imágenes alojadas en la nube.
+ * Clase DTO para modificar un usuario de la base de datos, añadiendo dos
+ * direcciones url de dos imágenes alojadas en la nube.
  */
 public class OnboardingRequestDto {
 
