@@ -13,25 +13,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String fullname;
 
-    @Column
     private String username;
 
-    @Column
     private String email;
 
-    @Column
     private String password;
 
-    @Column
     private boolean validated = false;
 
-    @Column
+    @Column(name = "url_dni_1")
     private String urlDni1;
 
-    @Column
+    @Column(name = "url_dni_2")
     private String urlDni2;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -43,9 +38,6 @@ public class User {
                     @JoinColumn(name = "ROLE_ID") })
 
     private Set<Role> roles;
-
-//    @OneToOne
-//    private HashCode hash;
 
     public User() {}
 
