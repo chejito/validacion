@@ -25,13 +25,8 @@ import java.util.Optional;
 @Service
 public class HashCodeServiceImpl implements HashCodeService {
 
-    @Autowired
     private final HashCodeRepository hashCodeRepository;
-
-    @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
     private final HashCodeUtils utils;
 
     Logger log = LoggerFactory.getLogger(HashCodeServiceImpl.class);
@@ -49,18 +44,19 @@ public class HashCodeServiceImpl implements HashCodeService {
             Optional<User> oUser = userRepository.findByUsername(username);
             if (oUser.isPresent()) {
                 User user = oUser.get();
-                HashCode newHashCode = utils.generateHashCode(user);
-                HashCode oldHashCode = hashCodeRepository.findByUser(user);
-                Integer hashCode = newHashCode.getHash();
-                Timestamp newTimestamp = newHashCode.getTimeStamp();
-                oldHashCode.setHash(hashCode);
-                oldHashCode.setTimeStamp(newTimestamp);
-                hashCodeRepository.save(oldHashCode);
+//                HashCode newHashCode = utils.generateHashCode(user);
+//                HashCode oldHashCode = hashCodeRepository.findByUser(user);
+//                Integer hashCode = newHashCode.getHash();
+//                Timestamp newTimestamp = newHashCode.getTimeStamp();
+//                oldHashCode.setHash(hashCode);
+//                oldHashCode.setTimeStamp(newTimestamp);
+//                hashCodeRepository.save(oldHashCode);
+                Integer hashcode = utils.updateHash(user);
 
-                String message = "Nuevo HashCode del usuario '" + username + "': " + hashCode;
+                String message = "Nuevo HashCode del usuario '" + username + "': " + hashcode;
                 log.warn(message);
 
-                return ResponseEntity.ok(new HashCodeResponseDto(message, hashCode));
+                return ResponseEntity.ok(new HashCodeResponseDto(message, hashcode));
             } else {
                 throw new UsernameNotFoundException("Usuario no encontrado: " + username);
             }
@@ -92,7 +88,6 @@ public class HashCodeServiceImpl implements HashCodeService {
                     }
                 }
             }
-
             throw new HashCodeNotFoundException(hash.toString());
         } catch (Exception e) {
             String message = e.getMessage();
@@ -102,8 +97,5 @@ public class HashCodeServiceImpl implements HashCodeService {
                     .badRequest()
                     .body(new MessageResponse(message));
         }
-
-
     }
-
 }

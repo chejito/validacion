@@ -2,6 +2,7 @@ package ob.proyecto.validacion.services.hashcode;
 
 import ob.proyecto.validacion.entities.HashCode;
 import ob.proyecto.validacion.entities.User;
+import ob.proyecto.validacion.repositories.HashCodeRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,14 @@ import java.sql.Timestamp;
 @Component
 public class HashCodeUtils {
 
+    HashCodeRepository repository;
+
     @Value("${app.hashcode.expiration-ms}")
     private long expiration;
+
+    public HashCodeUtils(HashCodeRepository repository) {
+        this.repository = repository;
+    }
 
     public HashCode generateHashCode(User user) {
         String username = user.getUsername();
@@ -33,9 +40,20 @@ public class HashCodeUtils {
     public Boolean validateHashCode(HashCode hashCode) {
         Long now = new Timestamp(System.currentTimeMillis()).getTime();
         Long hashTime = hashCode.getTimeStamp().getTime();
-        long sessionLimit = expiration;
 
-        return (now - hashTime) <= sessionLimit;
+        return (now - hashTime) <= expiration;
+    }
+
+    public Integer updateHash(User user) {
+        HashCode newHashCode = generateHashCode(user);
+        HashCode oldHashCode = repository.findByUser(user);
+        Integer hashCodeInteger = newHashCode.getHash();
+        Timestamp newTimestamp = newHashCode.getTimeStamp();
+        oldHashCode.setHash(hashCodeInteger);
+        oldHashCode.setTimeStamp(newTimestamp);
+        repository.save(oldHashCode);
+
+        return hashCodeInteger;
     }
 
 }
