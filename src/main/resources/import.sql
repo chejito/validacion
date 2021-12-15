@@ -9,4 +9,5 @@ INSERT INTO user_roles (user_id, role_id) VALUES (2, 1);
 INSERT INTO user_roles (user_id, role_id) VALUES (2, 2);
 
 
-
+INSERT INTO hashcodes (user_id, time_stamp, hash) VALUES (1, '2021-12-10 18:00:00000', 1234567890);
+INSERT INTO hashcodes (user_id, time_stamp, hash) VALUES (2, '2021-12-01 00:00:00000', 0987654321);
