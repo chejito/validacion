@@ -2,10 +2,7 @@ package ob.proyecto.validacion.controller;
 
 import ob.proyecto.validacion.dto.OnboardingRequestDto;
 import ob.proyecto.validacion.dto.OnePhotoRequestDto;
-import ob.proyecto.validacion.services.hashcode.HashCodeService;
-import ob.proyecto.validacion.services.hashcode.HashCodeServiceImpl;
 import ob.proyecto.validacion.services.user.UserServiceImpl;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +22,10 @@ public class OnboardingController {
 
     /**
      * Método que añade dos ficheros de imágenes a un usuario y devuelve sus direcciones URL.
-     * @param hashcode El hashcode que identifica al usuario.
+     *
+     * @param hashcode El código hash que identifica al usuario.
      * @param onboardingRequestDto DTO que incluye los ficheros de imágenes.
-     * @return En caso positivo, las URLs resultado de la subida de los archivos y un mensaje.
-     * En caso negativo, un mensaje de error.
+     * @return Respuesta del userService.
      */
     @PutMapping("/photos/{hashcode}")
     public ResponseEntity<?> addPhotos(@PathVariable String hashcode, OnboardingRequestDto onboardingRequestDto){
@@ -38,12 +35,11 @@ public class OnboardingController {
     }
 
     /**
-     * Método que añade un fichero de imágen a un usuario y devuelve su dirección URL.
+     * Método que añade un fichero de imagen a un usuario y devuelve su dirección URL.
      *
-     * @param hashcode El hashcode que identifica al usuario.
-     * @param onePhotoRequestDto DTO que incluye el fichero de imágen.
-     * @return En caso positivo, la URL resultado de la subida del archivo y un mensaje.
-     * En caso negativo, un mensaje de error.
+     * @param hashcode El código hash que identifica al usuario.
+     * @param onePhotoRequestDto DTO que incluye el fichero de imagen.
+     * @return Respuesta del userService.
      */
     @PostMapping("/uploadphoto/{hashcode}")
     public ResponseEntity<?> addOnePhoto(@PathVariable String hashcode, OnePhotoRequestDto onePhotoRequestDto){
@@ -54,8 +50,9 @@ public class OnboardingController {
 
     /**
      * Método que devuelve un usuario de la base de datos.
-     * @param hashcode El hashcode que identifica al usuario.
-     * @return Usuario solicitado.
+     *
+     * @param hashcode El código hash que identifica al usuario.
+     * @return Respuesta del userService.
      */
     @GetMapping("/users/{hashcode}")
     public ResponseEntity<?>  getUser(@PathVariable String hashcode){
